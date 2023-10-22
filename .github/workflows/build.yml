@@ -3,7 +3,7 @@ on:
   push:
     branches:
       - master
-      - Agustin
+      - Agus
       - olarizu
       - Gontzal
   pull_request:
