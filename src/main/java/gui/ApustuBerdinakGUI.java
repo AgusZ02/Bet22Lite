@@ -30,7 +30,7 @@ public class ApustuBerdinakGUI extends JFrame{
 	private static final String ETIQUETAS= "Etiquetas";
 	
 	
-	public ApustuBerdinakGUI(Registered copia, Registered me) {
+	public ApustuBerdinakGUI(Registered copia) {
 		this.getContentPane().setLayout(null);
 		this.setSize(new Dimension(400, 300));
 		this.setTitle(ResourceBundle.getBundle(ETIQUETAS).getString("ApustuBerdinak"));
