@@ -27,14 +27,15 @@ public class ApustuBerdinakGUI extends JFrame{
 	private JScrollPane scrollBar;
 	private JButton btnClose;
 	private JLabel lblError;
+	private static final String ETIQUETAS= "Etiquetas";
 	
 	
 	public ApustuBerdinakGUI(Registered copia, Registered me) {
 		this.getContentPane().setLayout(null);
 		this.setSize(new Dimension(400, 300));
-		this.setTitle(ResourceBundle.getBundle("Etiquetas").getString("ApustuBerdinak"));
+		this.setTitle(ResourceBundle.getBundle(ETIQUETAS).getString("ApustuBerdinak"));
 		
-		lblApustuak = new JLabel(ResourceBundle.getBundle("Etiquetas").getString("ErabApustuak"));
+		lblApustuak = new JLabel(ResourceBundle.getBundle(ETIQUETAS).getString("ErabApustuak"));
 		lblApustuak.setBackground(Color.PINK);
 		lblApustuak.setOpaque(true);
 		lblApustuak.setHorizontalAlignment(SwingConstants.CENTER);
@@ -51,7 +52,7 @@ public class ApustuBerdinakGUI extends JFrame{
 		getContentPane().add(scrollBar);
 		apustuLista.addAll(businessLogic.findApustuAnitza(copia));
 		
-		btnClose = new JButton(ResourceBundle.getBundle("Etiquetas").getString("Close"));
+		btnClose = new JButton(ResourceBundle.getBundle(ETIQUETAS).getString("Close"));
 		btnClose.setBackground(Color.DARK_GRAY);
 		btnClose.setForeground(Color.WHITE);
 		btnClose.addActionListener(new ActionListener() {
