@@ -55,11 +55,7 @@ public class ApustuBerdinakGUI extends JFrame{
 		btnClose = new JButton(ResourceBundle.getBundle(ETIQUETAS).getString("Close"));
 		btnClose.setBackground(Color.DARK_GRAY);
 		btnClose.setForeground(Color.WHITE);
-		btnClose.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				jButtonClose_actionPerformed(e);
-			}
-		});
+		btnClose.addActionListener(e -> jButtonClose_actionPerformed(e));
 		btnClose.setBounds(278, 210, 98, 21);
 		getContentPane().add(btnClose);
 		
