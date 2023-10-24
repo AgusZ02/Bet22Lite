@@ -26,7 +26,7 @@ public class EmaitzakIpiniDAB {
 	 //additional operations needed to execute the test 
 	static TestFacadeImplementation testDA=new TestFacadeImplementation();
 
-
+//comentario
 	// @Test
 	// public void test1(){
 	// 	try {
