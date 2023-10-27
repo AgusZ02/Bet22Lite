@@ -22,7 +22,7 @@ import test.businessLogic.TestFacadeImplementation;
 public class CreateQuestionInt {
 	 static BLFacadeImplementation sut;
 	 static TestFacadeImplementation testBL;
-
+//prueba commit
 	private Event ev;
 	
 	@BeforeClass
