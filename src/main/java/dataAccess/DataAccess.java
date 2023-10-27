@@ -588,11 +588,11 @@ public DataAccess(boolean initializeMode)  {
 			
 			
 			db.getTransaction().commit();
-			
-			this.DiruaSartu(reg1, 50.0, new Date(), "DiruaSartu");
-			this.DiruaSartu(reg2, 50.0, new Date(), "DiruaSartu");
-			this.DiruaSartu(reg3, 50.0, new Date(), "DiruaSartu");
-			this.DiruaSartu(reg4, 50.0, new Date(), "DiruaSartu");
+			String a = "Diruasartu";
+			this.DiruaSartu(reg1, 50.0, new Date(), a);
+			this.DiruaSartu(reg2, 50.0, new Date(), a);
+			this.DiruaSartu(reg3, 50.0, new Date(), a);
+			this.DiruaSartu(reg4, 50.0, new Date(), a);
 			
 			logger.info("Db initialized");
 		}
