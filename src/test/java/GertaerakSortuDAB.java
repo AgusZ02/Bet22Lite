@@ -1,3 +1,5 @@
+import java.util.Date;
+
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
@@ -5,25 +7,22 @@ import static org.junit.Assert.fail;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.util.Date;
 
 import org.junit.Test;
 
 import dataAccess.DataAccess;
 import domain.Event;
+import test.businessLogic.TestFacadeImplementation;
 import test.dataAccess.TestDataAccess;
 
-public class GertaerakSortuDAWTest {
-
-	
-	//sut:system under test
+public class GertaerakSortuDAB {
+		//sut:system under test
 		 static DataAccess sut=new DataAccess();
 		 
 		 //additional operations needed to execute the test 
 		 static TestDataAccess testDA=new TestDataAccess();
-
-		
-		
+		 static TestFacadeImplementation bl = new TestFacadeImplementation();
+		 
 		 @Test
 			//sut.createQuestion:  Sport wrong, needed to be false. 
 			public void test1() {
@@ -31,13 +30,14 @@ public class GertaerakSortuDAWTest {
 				String deporte="fusbol";
 				String des="Atletico-Athletic";
 				boolean resp;
+				String fecha= "01/11/2023";
 				
 				SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
 				Date eventDate=null;
 				
 				
 				try {
-					eventDate = sdf.parse("05/10/2022");
+					eventDate = sdf.parse(fecha);
 				} catch (ParseException e) {
 					// TODO Auto-generated catch block
 					e.printStackTrace();
@@ -52,7 +52,8 @@ public class GertaerakSortuDAWTest {
 					
 					//verify the results
 					assertFalse(resp);
-					
+					//Event evento;
+					//a=evento.getDescription();
 					//the event is not in the DB
 					testDA.open();
 					boolean a = testDA.exiteEvento(eventDate, des);
@@ -67,11 +68,14 @@ public class GertaerakSortuDAWTest {
 					testDA.open();
 			        boolean b=testDA.eliminateEvent(eventDate, des);
 			        testDA.close();
-				    System.out.println("Finally "+b); 
+				    System.out.println("Finally t1"+b); 
 				}
 				          
 			}
-		 @Test
+		 
+			
+				
+				@Test
 			//sut.createQuestion:  insert the event in DB. There are not more events on that date
 				public void test2() {
 						
@@ -79,24 +83,29 @@ public class GertaerakSortuDAWTest {
 							String deporte="Futbol";
 							String des="Atletico-Athletic";
 							boolean resp;
+							String fecha= "17/11/2023";
 													
 							SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
 							Date eventDate=null;
-							
+							 
 							try {
-								eventDate=sdf.parse("05/10/2022");
-							} catch (Exception e){
+								eventDate= sdf.parse(fecha);
+							} catch (ParseException e) {
 								e.printStackTrace();
 							}
+							
 						
 					try {	
 							//invoke System Under Test (sut)  
 							sut.open(true);
+							//boolean a = testDA.exiteEvento(eventDate, des);
+							
 							resp =sut.gertaerakSortu(des, eventDate, deporte);
 							sut.close();
 							
 							//verify the results
-							assertTrue(resp);
+							//Event evento = testDA.getEvent(eventDate, des);
+							assertFalse(resp);
 							
 							testDA.open();
 							Event e=testDA.getEvent(eventDate, des);
@@ -125,39 +134,45 @@ public class GertaerakSortuDAWTest {
 						testDA.open();
 				          boolean b=testDA.eliminateEvent(eventDate, des);
 				          testDA.close();
-				           System.out.println("Finally "+b);  
+				           System.out.println("Finally t2 "+b);
+				           
 					}
 
 					
 				
 				}
 					
-	
-		 @Test
-			//sut.createQuestion:  need to insert the event in Db, but in that date there is another event
+
+			@Test
+			//sut.createQuestion:  trying to insert two equal events
 			public void test3() {
 					
 					//define paramaters
 					String deporte="Futbol";
-					String des="Real Madrid-Barcelona";
-					String des2="Atletico-Athletic";
+					String des="Atletico-Athletic";
 					boolean resp;
 					boolean resp2;
-						
+					String fecha= "17/11/2023";
+					
 					SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
 					Date eventDate=null;
 					
+					
+					
 					try {
-						eventDate = sdf.parse("05/10/2022");
+						eventDate = sdf.parse(fecha);
 					} catch (ParseException e) {
 						// TODO Auto-generated catch block
 						e.printStackTrace();
-					}	
+					}
+					
+					//Event e = bl.addEventWithQuestion(des, eventDate, "pregunta", 1);
 					try {	
-					//invoke System Under Test (sut) two times 
+					//invoke sut two times 
 					sut.open(true);
-					resp=sut.gertaerakSortu(des, eventDate, deporte);
-					resp2=sut.gertaerakSortu(des, eventDate, deporte);
+					
+					resp=sut.gertaerakSortu(des, eventDate, deporte);//tieme que dar f
+					resp2=sut.gertaerakSortu(des, eventDate, deporte);//tiene que dar f
 					sut.close();
 					
 					
@@ -166,28 +181,21 @@ public class GertaerakSortuDAWTest {
 					assertTrue(resp2);
 					
 					testDA.open();
-					Event e=testDA.getEvent(eventDate, des);
-					Event e2=testDA.getEvent(eventDate, des2);
+					Event ev=testDA.getEvent(eventDate, des);
 					testDA.close();
 					
-					assertEquals(e.getDescription(), des);
-					assertEquals(e.getEventDate(), eventDate);
-					assertEquals(e.getSport().getIzena(), deporte);
+					assertEquals(ev.getDescription(), des);
+					assertEquals(ev.getEventDate(), eventDate);
+					assertEquals(ev.getSport().getIzena(), deporte);
 					
-					assertEquals(e2.getDescription(), des2);
-					assertEquals(e2.getEventDate(), eventDate);
-					assertEquals(e2.getSport().getIzena(), deporte);
-					
-					//check if event is in DB
+					//check if the first event is in DB
 	
 					testDA.open();
 					boolean existe = testDA.exiteEvento(eventDate, des);
-					boolean existe2 = testDA.exiteEvento(eventDate, des);
 					testDA.close();
-					
+				
 					assertTrue(existe);
-					assertTrue(existe2);
-				} catch (Exception e) {
+				} catch (Exception ex) {
 					fail();
 				
 				} finally {
@@ -196,78 +204,11 @@ public class GertaerakSortuDAWTest {
 					testDA.open();
 			          boolean b=testDA.eliminateEvent(eventDate, des);
 			          testDA.close();
-			           System.out.println("Finally "+b);
+			           System.out.println("Finally t3"+b);
 					
 				}
 				
 			}	
-	
-	
-		 @Test
-			//sut.createQuestion:  trying to inser two equal events
-			public void test4() {
-					
-					//define paramaters
-					String deporte="Futbol";
-					String des="Real Madrid-Barcelona";
-					
-					boolean resp;
-					boolean resp2;
-						
-					SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
-					Date eventDate=null;
-					
-					try {
-						eventDate = sdf.parse("05/10/2022");
-					} catch (ParseException e) {
-						// TODO Auto-generated catch block
-						e.printStackTrace();
-					}	
-					try {	
-					//invoke System Under Test (sut) two times the same
-					sut.open(true);
-					resp=sut.gertaerakSortu(des, eventDate, deporte);
-					resp2=sut.gertaerakSortu(des, eventDate, deporte);
-					sut.close();
-					
-					
-					//verify the results
-					assertTrue(resp);
-					assertTrue(resp2);
-					
-					testDA.open();
-					Event e=testDA.getEvent(eventDate, des);
-					
-					testDA.close();
-					
-					assertEquals(e.getDescription(), des);
-					assertEquals(e.getEventDate(), eventDate);
-					assertEquals(e.getSport().getIzena(), deporte);
-					
-					
-					
-					//check if event is in DB
-	
-					testDA.open();
-					boolean existe = testDA.exiteEvento(eventDate, des);
-					
-					testDA.close();
-					
-					assertTrue(existe);
-					
-				} catch (Exception e) {
-					fail();
-				
-				} finally {
-					
-					//Remove the created objects in the database (cascade removing)   
-					testDA.open();
-			          boolean b=testDA.eliminateEvent(eventDate, des);
-			          testDA.close();
-			           System.out.println("Finally "+b);
-					
-				}
-				
-			}	
-	
+				   
+				   
 }
