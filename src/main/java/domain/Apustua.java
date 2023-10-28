@@ -1,6 +1,7 @@
 package domain;
 
 import java.io.Serializable;
+import java.util.Objects;
 import java.util.Vector;
 
 import javax.persistence.CascadeType;
@@ -74,7 +75,7 @@ public class Apustua implements Serializable{
 	}
 	
 	public boolean galdutaMarkatu(Quote quo) {
-		if(kuota.getQuestion().getQuestionNumber().equals(quo.getQuestion().getQuestionNumber()) && quo.getQuoteNumber()!=kuota.getQuoteNumber()) {
+		if(kuota.getQuestion().getQuestionNumber().equals(quo.getQuestion().getQuestionNumber()) && !quo.getQuoteNumber().equals(kuota.getQuoteNumber())) {
 			this.egoera="galduta";
 			return true;
 		}
@@ -86,11 +87,20 @@ public class Apustua implements Serializable{
 	}
 	
 	@Override
-	public boolean equals(Object o) {
-		Apustua a = (Apustua) o; 
-		if(a==null) {
+	public int hashCode() {
+		return Objects.hash(apustuAnitza, apustuaNumber, egoera, kuota);
+	}
+
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
 			return false;
-		}
-		return this.getApostuaNumber().equals(a.getApostuaNumber()); 
+		if (getClass() != obj.getClass())
+			return false;
+		Apustua other = (Apustua) obj;
+		return Objects.equals(apustuAnitza, other.apustuAnitza) && Objects.equals(apustuaNumber, other.apustuaNumber)
+				&& Objects.equals(egoera, other.egoera) && Objects.equals(kuota, other.kuota);
 	}
 }

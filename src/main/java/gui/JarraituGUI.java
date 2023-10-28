@@ -97,7 +97,7 @@ public class JarraituGUI extends JFrame{
 		btnInfo.setBackground(Color.PINK);
 		btnInfo.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				JFrame a = new ApustuBerdinakGUI(list.getSelectedValue(), user);
+				JFrame a = new ApustuBerdinakGUI(user);
 				a.setVisible(true);
 			}
 		});
