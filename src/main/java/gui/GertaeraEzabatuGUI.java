@@ -9,25 +9,21 @@ import java.awt.event.ActionListener;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 import java.text.DateFormat;
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 import java.util.Locale;
 import java.util.ResourceBundle;
-import java.util.Vector;
-
 import javax.swing.DefaultComboBoxModel;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JScrollPane;
-
 import com.toedter.calendar.JCalendar;
-
 import businessLogic.BLFacade;
 import configuration.UtilDate;
-import domain.Apustua;
 import domain.Event;
 import javax.swing.SwingConstants;
 
@@ -35,28 +31,28 @@ public class GertaeraEzabatuGUI extends JFrame{
 
 	private static final long serialVersionUID = 1L;
 
-	private BLFacade businessLogic = MainGUI.getBusinessLogic();
+	private transient BLFacade businessLogic = MainGUI.getBusinessLogic();
 	
-	private JComboBox<Event> jComboBoxEvents = new JComboBox<Event>();
-	DefaultComboBoxModel<Event> modelEvents = new DefaultComboBoxModel<Event>();
-
-	private JLabel jLabelListOfEvents = new JLabel(ResourceBundle.getBundle("Etiquetas").getString("ListEvents"));
-	private JLabel jLabelEventDate = new JLabel(ResourceBundle.getBundle("Etiquetas").getString("EventDate"));
+	private JComboBox<Event> jComboBoxEvents = new JComboBox<>();
+	DefaultComboBoxModel<Event> modelEvents = new DefaultComboBoxModel<>();
+	private static final String ETIQ = "ETIQuetas";
+	private JLabel jLabelListOfEvents = new JLabel(ResourceBundle.getBundle(ETIQ).getString("ListEvents"));
+	private JLabel jLabelEventDate = new JLabel(ResourceBundle.getBundle(ETIQ).getString("EventDate"));
 	private JCalendar jCalendar = new JCalendar();
 	private Calendar calendarAct = null;
 	private Calendar calendarAnt = null;
 
 	private JScrollPane scrollPaneEvents = new JScrollPane();
-	private JButton jButtonClose = new JButton(ResourceBundle.getBundle("Etiquetas").getString("Close"));
+	private JButton jButtonClose = new JButton(ResourceBundle.getBundle(ETIQ).getString("Close"));
 	private JLabel jLabelMsg = new JLabel();
 	
-	private List<Date> datesWithEventsCurrentMonth = new Vector<Date>();
+	private List<Date> datesWithEventsCurrentMonth = new ArrayList<>();
 
 	private JButton jButtonEzabatu;
 
 	private JLabel jLabelErrorea;
 
-	public GertaeraEzabatuGUI(Vector<domain.Event> v) {
+	public GertaeraEzabatuGUI(List<domain.Event> v) {
 		try {
 			jbInit(v);
 		} catch (Exception e) {
@@ -64,7 +60,7 @@ public class GertaeraEzabatuGUI extends JFrame{
 		}
 	}
 
-	private void jbInit(Vector<domain.Event> v) throws Exception {
+	private void jbInit(List<domain.Event> v) throws Exception {
 
 		jLabelErrorea = new JLabel(); 
 		jLabelErrorea.setHorizontalAlignment(SwingConstants.CENTER);
@@ -74,7 +70,7 @@ public class GertaeraEzabatuGUI extends JFrame{
 		
 		this.getContentPane().setLayout(null);
 		this.setSize(new Dimension(604, 370));
-		this.setTitle(ResourceBundle.getBundle("Etiquetas").getString("GertaerakEzabatu"));
+		this.setTitle(ResourceBundle.getBundle(ETIQ).getString("GertaerakEzabatu"));
 
 		jComboBoxEvents.setModel(modelEvents);
 		jComboBoxEvents.setBounds(new Rectangle(275, 47, 250, 20));
@@ -85,7 +81,7 @@ public class GertaeraEzabatuGUI extends JFrame{
 		jButtonClose.setBounds(new Rectangle(311, 240, 130, 30));
 		jButtonClose.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				jButtonClose_actionPerformed(e);
+				jButtonCloseActionPerformed(e);
 			}
 		});
 
@@ -122,13 +118,14 @@ public class GertaeraEzabatuGUI extends JFrame{
 					modelEvents.addElement(a); 
 				}
 				
-				if(b==false) {
+				if(!b) {
 					jLabelErrorea.setVisible(true);
-					jLabelErrorea.setText(ResourceBundle.getBundle("Etiquetas").getString("GertaeraEzabError"));
+					jLabelErrorea.setText(ResourceBundle.getBundle(ETIQ).getString("GertaeraEzabError"));
 				}else {
 					jLabelErrorea.setVisible(true);
-					jLabelErrorea.setText(ResourceBundle.getBundle("Etiquetas").getString("GertaeraEzabCorrect")); 
+					jLabelErrorea.setText(ResourceBundle.getBundle(ETIQ).getString("GertaeraEzabCorrect")); 
 				}
+				
 				
 				if(modelEvents.getSize()==0) {
 					jButtonEzabatu.setEnabled(false); 
@@ -137,7 +134,7 @@ public class GertaeraEzabatuGUI extends JFrame{
 				}
 			}
 		});
-		jButtonEzabatu.setText(ResourceBundle.getBundle("Etiquetas").getString("Ezabatu")); //$NON-NLS-1$ //$NON-NLS-2$
+		jButtonEzabatu.setText(ResourceBundle.getBundle(ETIQ).getString("Ezabatu")); //$NON-NLS-1$ //$NON-NLS-2$
 		jButtonEzabatu.setBounds(145, 240, 120, 30);
 		getContentPane().add(jButtonEzabatu);
 
@@ -146,8 +143,6 @@ public class GertaeraEzabatuGUI extends JFrame{
 		this.jCalendar.addPropertyChangeListener(new PropertyChangeListener() {
 			public void propertyChange(PropertyChangeEvent propertychangeevent) {
 				jLabelErrorea.setVisible(false);
-//				this.jCalendar.addPropertyChangeListener(new PropertyChangeListener() {
-//					public void propertyChange(PropertyChangeEvent propertychangeevent) {
 				if (propertychangeevent.getPropertyName().equals("locale")) {
 					jCalendar.setLocale((Locale) propertychangeevent.getNewValue());
 				} else if (propertychangeevent.getPropertyName().equals("calendar")) {
@@ -178,7 +173,7 @@ public class GertaeraEzabatuGUI extends JFrame{
 
 					paintDaysWithEvents(jCalendar,datesWithEventsCurrentMonth);
 
-					//	Date firstDay = UtilDate.trim(new Date(jCalendar.getCalendar().getTime().getTime()));
+					
 					Date firstDay = UtilDate.trim(calendarAct.getTime());
 
 					try {
@@ -187,10 +182,10 @@ public class GertaeraEzabatuGUI extends JFrame{
 						List<domain.Event> events = facade.getEvents(firstDay);
 
 						if (events.isEmpty())
-							jLabelListOfEvents.setText(ResourceBundle.getBundle("Etiquetas").getString("NoEvents")
+							jLabelListOfEvents.setText(ResourceBundle.getBundle(ETIQ).getString("NoEvents")
 									+ ": " + dateformat1.format(calendarAct.getTime()));
 						else
-							jLabelListOfEvents.setText(ResourceBundle.getBundle("Etiquetas").getString("Events") + ": "
+							jLabelListOfEvents.setText(ResourceBundle.getBundle(ETIQ).getString("Events") + ": "
 									+ dateformat1.format(calendarAct.getTime()));
 						jComboBoxEvents.removeAllItems();
 						System.out.println("Events " + events);
@@ -199,7 +194,7 @@ public class GertaeraEzabatuGUI extends JFrame{
 							modelEvents.addElement(ev);
 						jComboBoxEvents.repaint();
 
-						if (events.size() == 0)
+						if (events.isEmpty())
 							jButtonEzabatu.setEnabled(false);
 						else
 							jButtonEzabatu.setEnabled(true);
@@ -247,8 +242,8 @@ public static void paintDaysWithEvents(JCalendar jCalendar,List<Date> datesWithE
 			// the empty days before day 1 of month, and all the days previous to each day.
 			// That number of components is calculated with "offset" and is different in
 			// English and Spanish
-//			    		  Component o=(Component) jCalendar.getDayChooser().getDayPanel().getComponent(i+offset);; 
-			Component o = (Component) jCalendar.getDayChooser().getDayPanel()
+
+			Component o = jCalendar.getDayChooser().getDayPanel()
 					.getComponent(calendar.get(Calendar.DAY_OF_MONTH) + offset);
 			o.setBackground(Color.CYAN);
 	 	}
@@ -260,7 +255,7 @@ public static void paintDaysWithEvents(JCalendar jCalendar,List<Date> datesWithE
 	 	
 	}
 
-	private void jButtonClose_actionPerformed(ActionEvent e) {
+	private void jButtonCloseActionPerformed(ActionEvent e) {
 		this.setVisible(false);
 	}
 }

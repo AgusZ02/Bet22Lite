@@ -31,8 +31,10 @@ public class EmaitzakIpiniBLBMTest {
             Mockito.doThrow(new IllegalArgumentException()).when(daMock).emaitzakIpini(null);
             sut.emaitzakIpini(null);
             fail("No debería de ejecutar con parámetro null");
-        } catch (Exception e) {
+        } catch (IllegalArgumentException e) {
             assertTrue(true);
+        } catch (EventNotFinished e) {
+            fail("Error incorrecto.");
         }
     }
 
@@ -69,7 +71,7 @@ public class EmaitzakIpiniBLBMTest {
                 });
             } catch (EventNotFinished e) {
                 assertTrue(true);
-            }
+            } 
     }
 
 }
