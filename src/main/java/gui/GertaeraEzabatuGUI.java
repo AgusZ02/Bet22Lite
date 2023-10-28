@@ -125,13 +125,7 @@ public class GertaeraEzabatuGUI extends JFrame{
 					jLabelErrorea.setVisible(true);
 					jLabelErrorea.setText(ResourceBundle.getBundle(ETIQ).getString("GertaeraEzabCorrect")); 
 				}
-				
-				
-				if(modelEvents.getSize()==0) {
-					jButtonEzabatu.setEnabled(false); 
-				}else {
-					jButtonEzabatu.setEnabled(true);
-				}
+				jButtonEzabatu.setEnabled(modelEvents.getSize()!=0);
 			}
 		});
 		jButtonEzabatu.setText(ResourceBundle.getBundle(ETIQ).getString("Ezabatu")); //$NON-NLS-1$ //$NON-NLS-2$
