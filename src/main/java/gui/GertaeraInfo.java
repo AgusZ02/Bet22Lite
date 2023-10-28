@@ -28,15 +28,15 @@ import javax.swing.event.ListSelectionEvent;
 
 public class GertaeraInfo extends JFrame{
 	private static final long serialVersionUID = 1L;
-	private BLFacade businessLogic = MainGUI.getBusinessLogic();	
+	private transient BLFacade businessLogic = MainGUI.getBusinessLogic();	
 	private JLabel lblTitle;
 	private JLabel lblDate;
 	private JScrollPane scrollBar;
-	private JList list;
-	private DefaultListModel<Question> questionLista = new DefaultListModel<Question>();
-	private JList list_1;
-	private JScrollPane scrollBar_1;
-	private DefaultListModel<Quote> quoteLista = new DefaultListModel<Quote>();
+	private JList<Question> list;
+	private DefaultListModel<Question> questionLista = new DefaultListModel<>();
+	private JList<Quote> list1;
+	private JScrollPane scrollBar1;
+	private DefaultListModel<Quote> quoteLista = new DefaultListModel<>();
 	private JLabel lblEvent;
 	private JLabel lblSport;
 	private JButton btnNewButton;
@@ -65,13 +65,13 @@ public class GertaeraInfo extends JFrame{
 	getContentPane().add(lblDate);
 	lblDate.setText(ev.getEventDate().toString());
 	
-	list = new JList();
-	list_1 = new JList();
+	list = new JList<>();
+	list1 = new JList<>();
 	questionLista.addAll(ev.getQuestions());
 	list.addListSelectionListener(new ListSelectionListener() {
 		public void valueChanged(ListSelectionEvent e) {
 			quoteLista.removeAllElements();
-			quoteLista.addAll(((Question)list.getSelectedValue()).getQuotes());
+			quoteLista.addAll((list.getSelectedValue()).getQuotes());
 
 		}
 	});
@@ -84,20 +84,20 @@ public class GertaeraInfo extends JFrame{
 	scrollBar.setBounds(34, 112, 363, 95);
 	getContentPane().add(scrollBar);
 	
-	list_1.setBounds(44, 263, 1, 1);
-	list_1.setModel(quoteLista);
-	getContentPane().add(list_1);
+	list1.setBounds(44, 263, 1, 1);
+	list1.setModel(quoteLista);
+	getContentPane().add(list1);
 	
-	scrollBar_1 = new JScrollPane(list_1);
-	scrollBar_1.setBounds(34, 217, 363, 95);
-	getContentPane().add(scrollBar_1);
+	scrollBar1 = new JScrollPane(list1);
+	scrollBar1.setBounds(34, 217, 363, 95);
+	getContentPane().add(scrollBar1);
 	
 	btnNewButton = new JButton(ResourceBundle.getBundle("Etiquetas").getString("Close"));
 	btnNewButton.setBackground(Color.DARK_GRAY);
 	btnNewButton.setForeground(Color.WHITE);
 	btnNewButton.addActionListener(new ActionListener() {
 		public void actionPerformed(ActionEvent e) {
-			jButtonClose_actionPerformed(e);
+			jButtonCloseActionPerformed(e);
 		}
 	});
 	btnNewButton.setBounds(330, 322, 85, 21);
@@ -142,7 +142,7 @@ public class GertaeraInfo extends JFrame{
 	}
 	}
 	
-	private void jButtonClose_actionPerformed(ActionEvent e) {
+	private void jButtonCloseActionPerformed(ActionEvent e) {
 		this.setVisible(false);
 	}
 }

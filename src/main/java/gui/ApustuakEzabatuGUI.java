@@ -21,13 +21,13 @@ import domain.Registered;
 
 public class ApustuakEzabatuGUI extends JFrame{
 	
-	private BLFacade businessLogic = MainGUI.getBusinessLogic();
+	private transient BLFacade businessLogic = MainGUI.getBusinessLogic();
 	
 	private static final long serialVersionUID = 1L;
 	private Registered user;
 
-	private JComboBox comboBox;
-	//DefaultComboBoxModel<ApustuaContainer> modelApustua = new DefaultComboBoxModel<ApustuaContainer>();
+	private JComboBox<ApustuAnitza> comboBox;
+	
 
 	private JButton jButtonClose;
 
@@ -35,7 +35,7 @@ public class ApustuakEzabatuGUI extends JFrame{
 
 	private JLabel lblComboBox; 
 	
-	DefaultComboBoxModel<ApustuAnitza> listApustuak = new DefaultComboBoxModel<ApustuAnitza>();
+	DefaultComboBoxModel<ApustuAnitza> listApustuak = new DefaultComboBoxModel<>();
 	
 	private boolean amaituta;
 	
@@ -49,7 +49,7 @@ public class ApustuakEzabatuGUI extends JFrame{
 		lblComboBox.setBounds(186, 62, 215, 21);
 		getContentPane().add(lblComboBox);
 		
-		comboBox = new JComboBox();
+		comboBox = new JComboBox<>();
 		comboBox.setBounds(10, 105, 570, 21);
 		comboBox.setModel(listApustuak);
 		for(ApustuAnitza ap : businessLogic.findApustuAnitza(user)){
@@ -66,16 +66,13 @@ public class ApustuakEzabatuGUI extends JFrame{
 			}
 		}
 		getContentPane().add(comboBox);
-		comboBox.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-			}
-		});
+
 		
 		
 		jButtonClose = new JButton(ResourceBundle.getBundle("Etiquetas").getString("Close"));
 		jButtonClose.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				jButtonClose_actionPerformed(e);
+				jButtonCloseActionPerformed(e);
 			}
 		});
 		jButtonClose.setBounds(347, 245, 101, 33);
@@ -83,11 +80,8 @@ public class ApustuakEzabatuGUI extends JFrame{
 		
 		
 		jButtonEzabatu = new JButton(ResourceBundle.getBundle("Etiquetas").getString("Ezabatu"));
-		if(listApustuak.getSize()==0) {
-			jButtonEzabatu.setEnabled(false); 
-		}else {
-			jButtonEzabatu.setEnabled(true);
-		}
+		jButtonEzabatu.setEnabled(listApustuak.getSize()!=0);
+
 		jButtonEzabatu.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				ApustuAnitza apustua = (ApustuAnitza) comboBox.getSelectedItem();
@@ -108,11 +102,7 @@ public class ApustuakEzabatuGUI extends JFrame{
 						}
 					}
 				}
-				if(listApustuak.getSize()==0) {
-					jButtonEzabatu.setEnabled(false); 
-				}else {
-					jButtonEzabatu.setEnabled(true);
-				}
+				jButtonEzabatu.setEnabled(listApustuak.getSize()!=0);
 			}
 		});
 		jButtonEzabatu.setBounds(160, 246, 117, 30);
@@ -121,7 +111,7 @@ public class ApustuakEzabatuGUI extends JFrame{
 		this.setTitle(ResourceBundle.getBundle("Etiquetas").getString("ApustuaEzabatu"));
 	}
 	
-	private void jButtonClose_actionPerformed(ActionEvent e) {
+	private void jButtonCloseActionPerformed(ActionEvent e) {
 		this.setVisible(false);
 	}
 	

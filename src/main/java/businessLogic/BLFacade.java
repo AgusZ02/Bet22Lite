@@ -3,7 +3,6 @@ package businessLogic;
 import java.util.Collection;
 import java.util.Date;
 import java.util.List;
-import java.util.Vector;
 
 import javax.jws.WebMethod;
 import javax.jws.WebService;
@@ -11,7 +10,6 @@ import javax.jws.WebService;
 import domain.ApustuAnitza;
 import domain.Apustua;
 import domain.Event;
-//import domain.Booking;
 import domain.Question;
 import domain.Quote;
 import domain.Registered;
@@ -76,11 +74,11 @@ public interface BLFacade  {
 	
 	@WebMethod public Collection<Question> findQuestion(Event event);
 	
-	@WebMethod public void DiruaSartu(Registered u, Double dirua, String mota); 
+	@WebMethod public void diruaSartu(Registered u, Double dirua, String mota); 
 	
 	@WebMethod public Collection<Quote> findQuote(Question question); 
 	
-	@WebMethod public boolean ApustuaEgin(Registered u, Vector<Quote> q, Double balioa, Integer apustuaGalarazi); 
+	@WebMethod public boolean apustuaEgin(Registered u, List<Quote> q, Double balioa, Integer apustuaGalarazi); 
 	
 	@WebMethod public List<Apustua> findApustua(Registered u); 
 	

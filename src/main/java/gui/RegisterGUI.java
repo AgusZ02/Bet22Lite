@@ -5,11 +5,9 @@ import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.ResourceBundle;
-
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
-import javax.swing.JPanel;
 import javax.swing.JPasswordField;
 import javax.swing.JTextField;
 import javax.swing.SwingConstants;
@@ -19,13 +17,12 @@ import businessLogic.BLFacade;
 
 public class RegisterGUI extends JFrame {
 	
-	private JPanel contentPane= null;
 	private JTextField txtUsername;
 	private JTextField txtPassword;
 	private JLabel izenaSartu = new JLabel(); 
 	private JLabel passSartu = new JLabel(); 
 	private JLabel kontuaSartu = new JLabel(); 
-	private BLFacade businessLogic = MainGUI.getBusinessLogic();
+	private transient BLFacade businessLogic = MainGUI.getBusinessLogic();
 	private JFrame thisw;
 	private JTextField txtBank;
 
@@ -54,29 +51,27 @@ public class RegisterGUI extends JFrame {
 		txtUsername.setBounds(263, 114, 224, 51);
 		txtUsername.setHorizontalAlignment(SwingConstants.CENTER);
 		txtUsername.setFont(new Font("Times New Roman", Font.BOLD, 20));
-		//txtUsername.setText(ResourceBundle.getBundle("Etiquetas").getString("Username"));
 		getContentPane().add(txtUsername);
 		txtUsername.setColumns(10);
 		
 		txtPassword = new JPasswordField();
 		txtPassword.setBounds(263, 208, 224, 51);
 		txtPassword.setHorizontalAlignment(SwingConstants.CENTER);
-		//txtPassword.setText(ResourceBundle.getBundle("Etiquetas").getString("Password")); //$NON-NLS-1$ //$NON-NLS-2$
 		txtPassword.setFont(new Font("Times New Roman", Font.BOLD, 20));
 		txtPassword.setColumns(10);
 		getContentPane().add(txtPassword);
 		
-		JLabel lblNewLabel_1 = new JLabel(ResourceBundle.getBundle("Etiquetas").getString("Username")); //$NON-NLS-1$ //$NON-NLS-2$
-		lblNewLabel_1.setBounds(44, 123, 190, 30);
-		lblNewLabel_1.setHorizontalAlignment(SwingConstants.RIGHT);
-		lblNewLabel_1.setFont(new Font("Times New Roman", Font.BOLD, 20));
-		getContentPane().add(lblNewLabel_1);
+		JLabel lblNewLabel1 = new JLabel(ResourceBundle.getBundle("Etiquetas").getString("Username")); //$NON-NLS-1$ //$NON-NLS-2$
+		lblNewLabel1.setBounds(44, 123, 190, 30);
+		lblNewLabel1.setHorizontalAlignment(SwingConstants.RIGHT);
+		lblNewLabel1.setFont(new Font("Times New Roman", Font.BOLD, 20));
+		getContentPane().add(lblNewLabel1);
 		
-		JLabel lblNewLabel_2 = new JLabel(ResourceBundle.getBundle("Etiquetas").getString("Password")); //$NON-NLS-1$ //$NON-NLS-2$
-		lblNewLabel_2.setBounds(44, 213, 190, 40);
-		lblNewLabel_2.setFont(new Font("Times New Roman", Font.BOLD, 20));
-		lblNewLabel_2.setHorizontalAlignment(SwingConstants.RIGHT);
-		getContentPane().add(lblNewLabel_2);
+		JLabel lblNewLabel2 = new JLabel(ResourceBundle.getBundle("Etiquetas").getString("Password")); //$NON-NLS-1$ //$NON-NLS-2$
+		lblNewLabel2.setBounds(44, 213, 190, 40);
+		lblNewLabel2.setFont(new Font("Times New Roman", Font.BOLD, 20));
+		lblNewLabel2.setHorizontalAlignment(SwingConstants.RIGHT);
+		getContentPane().add(lblNewLabel2);
 		
 		izenaSartu = new JLabel("");
 		izenaSartu.setBounds(111, 91, 540, 13);
@@ -90,11 +85,11 @@ public class RegisterGUI extends JFrame {
 		passSartu.setHorizontalAlignment(SwingConstants.CENTER);
 		getContentPane().add(passSartu);
 		
-		JLabel lblNewLabel_3 = new JLabel(ResourceBundle.getBundle("Etiquetas").getString("BankAccount")); //$NON-NLS-1$ //$NON-NLS-2$
-		lblNewLabel_3.setHorizontalAlignment(SwingConstants.RIGHT);
-		lblNewLabel_3.setFont(new Font("Times New Roman", Font.BOLD, 20));
-		lblNewLabel_3.setBounds(44, 289, 209, 30);
-		getContentPane().add(lblNewLabel_3);
+		JLabel lblNewLabel3 = new JLabel(ResourceBundle.getBundle("Etiquetas").getString("BankAccount")); //$NON-NLS-1$ //$NON-NLS-2$
+		lblNewLabel3.setHorizontalAlignment(SwingConstants.RIGHT);
+		lblNewLabel3.setFont(new Font("Times New Roman", Font.BOLD, 20));
+		lblNewLabel3.setBounds(44, 289, 209, 30);
+		getContentPane().add(lblNewLabel3);
 		
 		txtBank = new JTextField();
 		txtBank.setHorizontalAlignment(SwingConstants.CENTER);
@@ -132,7 +127,7 @@ public class RegisterGUI extends JFrame {
 					passSartu.setVisible(false);
 					kontuaSartu.setVisible(false);
 					
-					if(businessLogic.isRegister(izena) == false) {
+					if(!businessLogic.isRegister(izena)) {
 						try {
 							Integer i = Integer.parseInt(bankAccount);
 							businessLogic.storeRegistered(izena, password, i);

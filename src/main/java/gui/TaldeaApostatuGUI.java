@@ -3,7 +3,9 @@ package gui;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Image;
+import java.awt.List;
 import java.awt.event.ActionEvent;
+import java.util.ArrayList;
 import java.util.ResourceBundle;
 import java.util.Vector;
 
@@ -14,21 +16,21 @@ import javax.swing.JLabel;
 import javax.swing.JList;
 import javax.swing.JScrollPane;
 import javax.swing.SwingConstants;
-
 import businessLogic.BLFacade;
 import domain.Event;
 import domain.Question;
 import domain.Quote;
 import domain.Registered;
-import domain.Registered;
 import javax.swing.JButton;
 import java.awt.event.ActionListener;
+import java.lang.reflect.Array;
+
 import javax.swing.event.ListSelectionListener;
 import javax.swing.event.ListSelectionEvent;
 import java.awt.Font;
 
 public class TaldeaApostatuGUI extends JFrame{
-	private BLFacade businessLogic = MainGUI.getBusinessLogic();
+	private transient BLFacade businessLogic = MainGUI.getBusinessLogic();
 
 	private static final long serialVersionUID = 1L;
 
@@ -39,17 +41,17 @@ public class TaldeaApostatuGUI extends JFrame{
 	private JLabel lblEquipo;
 
 	private JLabel lblEvent;
-	private JList list;
-	private DefaultListModel<Event> events = new DefaultListModel<Event>();
+	private JList<Event> list;
+	private DefaultListModel<Event> events = new DefaultListModel<>();
 	private JScrollPane scrollBar;
 	private JLabel lblQuestion;
-	private JList list_1;
-	private DefaultListModel<Question> questions = new DefaultListModel<Question>();
-	private JScrollPane scrollBar_1;
-	private DefaultListModel<Quote> quotes = new DefaultListModel<Quote>();
+	private JList<Question> list1;
+	private DefaultListModel<Question> questions = new DefaultListModel<>();
+	private JScrollPane scrollBar1;
+	private DefaultListModel<Quote> quotes = new DefaultListModel<>();
 	private JLabel lblQuotes;
-	private JList list_2;
-	private JScrollPane scrollBar_2;
+	private JList<Quote> list2;
+	private JScrollPane scrollBar2;
 	private JButton btnClose;
 	private JButton btnApostatu;
 
@@ -92,13 +94,13 @@ public class TaldeaApostatuGUI extends JFrame{
 		lblEvent.setBounds(31, 138, 80, 27);
 		getContentPane().add(lblEvent);
 		
-		list = new JList();
+		list = new JList<>();
 		list.setFont(new Font("Tahoma", Font.PLAIN, 18));
 		list.addListSelectionListener(new ListSelectionListener() {
 			public void valueChanged(ListSelectionEvent e) {
 				btnApostatu.setEnabled(false);
 				questions.removeAllElements();
-				for(domain.Question question : businessLogic.findQuestion((Event)list.getSelectedValue()))
+				for(domain.Question question : businessLogic.findQuestion(list.getSelectedValue()))
 					questions.addElement(question); 
 				if(questions.size()==0) {
 					lblErrorQuestion.setVisible(true);
@@ -124,13 +126,13 @@ public class TaldeaApostatuGUI extends JFrame{
 		lblQuestion.setBounds(31, 342, 80, 29);
 		getContentPane().add(lblQuestion);
 		
-		list_1 = new JList();
-		list_1.setFont(new Font("Tahoma", Font.PLAIN, 18));
-		list_1.addListSelectionListener(new ListSelectionListener() {
+		list1 = new JList<>();
+		list1.setFont(new Font("Tahoma", Font.PLAIN, 18));
+		list1.addListSelectionListener(new ListSelectionListener() {
 			public void valueChanged(ListSelectionEvent e) {
 				btnApostatu.setEnabled(false);
 				quotes.removeAllElements();
-				for(domain.Quote quote : businessLogic.findQuote((Question)list_1.getSelectedValue()))
+				for(domain.Quote quote : businessLogic.findQuote((Question)list1.getSelectedValue()))
 					quotes.addElement(quote);
 				if(quotes.size()==0) {
 					btnApostatu.setEnabled(false);
@@ -140,38 +142,38 @@ public class TaldeaApostatuGUI extends JFrame{
 					btnApostatu.setEnabled(true);
 					lblErrorQuote.setVisible(false);
 				}
-				if(list_2.getSelectedValue()==null) {
+				if(list2.getSelectedValue()==null) {
 					btnApostatu.setEnabled(false);
 				}
 			}
 		});
-		list_1.setModel(questions);
-		list_1.setBounds(48, 196, 1, 1);
-		getContentPane().add(list_1);
+		list1.setModel(questions);
+		list1.setBounds(48, 196, 1, 1);
+		getContentPane().add(list1);
 		
-		scrollBar_1 = new JScrollPane(list_1);
-		scrollBar_1.setBounds(31, 381, 475, 130);
-		getContentPane().add(scrollBar_1);
+		scrollBar1 = new JScrollPane(list1);
+		scrollBar1.setBounds(31, 381, 475, 130);
+		getContentPane().add(scrollBar1);
 		
 		lblQuotes = new JLabel(ResourceBundle.getBundle("Etiquetas").getString("Quote")); //$NON-NLS-1$ //$NON-NLS-2$
 		lblQuotes.setFont(new Font("Tahoma", Font.PLAIN, 18));
 		lblQuotes.setBounds(31, 521, 80, 22);
 		getContentPane().add(lblQuotes);
 		
-		list_2 = new JList();
-		list_2.setFont(new Font("Tahoma", Font.PLAIN, 18));
-		list_2.addListSelectionListener(new ListSelectionListener() {
+		list2 = new JList<>();
+		list2.setFont(new Font("Tahoma", Font.PLAIN, 18));
+		list2.addListSelectionListener(new ListSelectionListener() {
 			public void valueChanged(ListSelectionEvent e) {
 				btnApostatu.setEnabled(true);
 			}
 		});
-		list_2.setModel(quotes);
-		list_2.setBounds(64, 325, 1, 1);
-		getContentPane().add(list_2);
+		list2.setModel(quotes);
+		list2.setBounds(64, 325, 1, 1);
+		getContentPane().add(list2);
 		
-		scrollBar_2 = new JScrollPane(list_2);
-		scrollBar_2.setBounds(31, 553, 475, 134);
-		getContentPane().add(scrollBar_2);
+		scrollBar2 = new JScrollPane(list2);
+		scrollBar2.setBounds(31, 553, 475, 134);
+		getContentPane().add(scrollBar2);
 		
 		btnClose = new JButton(ResourceBundle.getBundle("Etiquetas").getString("Close")); //$NON-NLS-1$ //$NON-NLS-2$
 		btnClose.setFont(new Font("Tahoma", Font.PLAIN, 15));
@@ -179,7 +181,7 @@ public class TaldeaApostatuGUI extends JFrame{
 		btnClose.setBackground(Color.DARK_GRAY);
 		btnClose.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				jButtonClose_actionPerformed(e);
+				jButtonCloseActionPerformed(e);
 				JFrame a = new DestacadosGUI(user);
 				a.setVisible(true);
 			}
@@ -193,7 +195,7 @@ public class TaldeaApostatuGUI extends JFrame{
 		btnApostatu.setFont(new Font("Tahoma", Font.PLAIN, 16));
 		btnApostatu.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				JFrame a =new apustuaEginGUI(new Vector<Event>(),user, (Quote)list_2.getSelectedValue());
+				JFrame a =new apustuaEginGUI(user, (Quote)list2.getSelectedValue());
 				a.setVisible(true);
 				thisw.setVisible(false);
 			}
@@ -209,7 +211,7 @@ public class TaldeaApostatuGUI extends JFrame{
 		getContentPane().add(lblErrorQuote);
 		
 	}
-	private void jButtonClose_actionPerformed(ActionEvent e) {
+	private void jButtonCloseActionPerformed(ActionEvent e) {
 		this.setVisible(false);
 	}
 }

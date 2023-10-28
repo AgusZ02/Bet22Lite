@@ -15,8 +15,6 @@ import java.util.Date;
 import java.util.List;
 import java.util.Locale;
 import java.util.ResourceBundle;
-import java.util.Vector;
-
 import javax.swing.DefaultComboBoxModel;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
@@ -31,17 +29,16 @@ import configuration.UtilDate;
 import domain.Event;
 import domain.Question;
 import domain.Quote;
-import domain.Registered;
 import exceptions.EventNotFinished;
 import javax.swing.SwingConstants;
 
 public class EmaitzakIpiniGUI extends JFrame{
-	private BLFacade businessLogic = MainGUI.getBusinessLogic();
+	private transient BLFacade businessLogic = MainGUI.getBusinessLogic();
 
 	private static final long serialVersionUID = 1L;
 
-	private JComboBox<Event> jComboBoxEvents = new JComboBox<Event>();
-	DefaultComboBoxModel<Event> modelEvents = new DefaultComboBoxModel<Event>();
+	private JComboBox<Event> jComboBoxEvents = new JComboBox<>();
+	DefaultComboBoxModel<Event> modelEvents = new DefaultComboBoxModel<>();
 	
 	private JLabel jLabelListOfEvents = new JLabel(ResourceBundle.getBundle("Etiquetas").getString("ListEvents"));
 	private JLabel jLabelEventDate = new JLabel(ResourceBundle.getBundle("Etiquetas").getString("EventDate"));
@@ -54,20 +51,18 @@ public class EmaitzakIpiniGUI extends JFrame{
 	
 	private List<Date> datesWithEventsCurrentMonth = new ArrayList<>();
 	private final JLabel jLabelQuestion = new JLabel(); //$NON-NLS-1$ //$NON-NLS-2$
-	private final JComboBox<Question> jComboBoxQuestions = new JComboBox<Question>();
-	DefaultComboBoxModel<Question> modelQuestions = new DefaultComboBoxModel<Question>();
+	private final JComboBox<Question> jComboBoxQuestions = new JComboBox<>();
+	DefaultComboBoxModel<Question> modelQuestions = new DefaultComboBoxModel<>();
 	
 	private domain.Event event;
 	private final JLabel jLabelQuotes = new JLabel(); 
 
-	private JComboBox jComboBoxQuotes;
-	DefaultComboBoxModel<Quote> modelQuotes = new DefaultComboBoxModel<Quote>();
-	
-	private Registered user; 
+	private JComboBox<Quote> jComboBoxQuotes;
+	DefaultComboBoxModel<Quote> modelQuotes = new DefaultComboBoxModel<>();
 	private final JButton jButtonEmaitzaIpini = new JButton(ResourceBundle.getBundle("Etiquetas").getString("EmaitzaIpini")); 
 	private final JLabel jLabelError = new JLabel();
 	
-	public EmaitzakIpiniGUI(Vector<domain.Event> v) {
+	public EmaitzakIpiniGUI(List<domain.Event> v) {
 		try {
 			jbInit(v);
 		} catch (Exception e) {
@@ -75,7 +70,7 @@ public class EmaitzakIpiniGUI extends JFrame{
 		}
 	}
 
-	private void jbInit(Vector<domain.Event> v) throws Exception {
+	private void jbInit(List<domain.Event> v) throws Exception {
 
 		this.getContentPane().setLayout(null);
 		this.setSize(new Dimension(604, 370));
@@ -95,7 +90,7 @@ public class EmaitzakIpiniGUI extends JFrame{
 		jButtonClose.setBounds(new Rectangle(291, 228, 130, 30));
 		jButtonClose.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				jButtonClose_actionPerformed(e);
+				jButtonCloseActionPerformed(e);
 			}
 		});
 
@@ -133,12 +128,7 @@ public class EmaitzakIpiniGUI extends JFrame{
 						modelQuestions.addElement(question); 
 				}
 					
-				
-				if(modelQuestions.getSize()>0) {
-					jButtonEmaitzaIpini.setEnabled(true);
-				}else {
-					jButtonEmaitzaIpini.setEnabled(false);
-				}
+				jButtonEmaitzaIpini.setEnabled(modelQuestions.getSize()>0);
 				}
 				
 
@@ -148,14 +138,13 @@ public class EmaitzakIpiniGUI extends JFrame{
 		
 		getContentPane().add(jLabelQuotes);
 		
-		jComboBoxQuotes = new JComboBox();
+		jComboBoxQuotes = new JComboBox<>();
 		jComboBoxQuotes.setBounds(275, 158, 250, 21);
 		jComboBoxQuotes.setModel(modelQuotes);
 		
 		getContentPane().add(jComboBoxQuotes);
 		jButtonEmaitzaIpini.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				Question que= (Question) jComboBoxQuestions.getSelectedItem();
 				Quote q = (Quote)jComboBoxQuotes.getSelectedItem(); 
 				try {
 					businessLogic.emaitzakIpini(q);
@@ -165,11 +154,8 @@ public class EmaitzakIpiniGUI extends JFrame{
 							modelQuestions.addElement(question); 
 					}
 					
-					if(modelQuotes.getSize()>0) {
-						jButtonEmaitzaIpini.setEnabled(true);
-					}else {
-						jButtonEmaitzaIpini.setEnabled(false);
-					}
+					jButtonEmaitzaIpini.setEnabled(modelQuotes.getSize()>0);
+
 					
 				} catch (EventNotFinished e1) {
 					jLabelError.setVisible(true);
@@ -188,14 +174,7 @@ public class EmaitzakIpiniGUI extends JFrame{
 				for(domain.Quote quote : businessLogic.findQuote(q)) {
 					modelQuotes.addElement(quote); 
 				}
-				
-				if(jComboBoxQuotes.getSelectedItem()!=null) {
-					jButtonEmaitzaIpini.setEnabled(true);
-				}else {
-					jButtonEmaitzaIpini.setEnabled(false);
-				}
-				
-				
+				jButtonEmaitzaIpini.setEnabled(jComboBoxQuotes.getSelectedItem()!=null);
 			}
 		});
 		
@@ -206,13 +185,9 @@ public class EmaitzakIpiniGUI extends JFrame{
 		this.jCalendar.addPropertyChangeListener(new PropertyChangeListener() {
 			public void propertyChange(PropertyChangeEvent propertychangeevent) {
 				jLabelError.setVisible(false);
-				if(modelQuotes.getSize()>0) {
-					jButtonEmaitzaIpini.setEnabled(true);
-				}else {
-					jButtonEmaitzaIpini.setEnabled(false);
-				}
-//				this.jCalendar.addPropertyChangeListener(new PropertyChangeListener() {
-//					public void propertyChange(PropertyChangeEvent propertychangeevent) {
+				jButtonEmaitzaIpini.setEnabled(modelQuotes.getSize()>0);
+
+
 				if (propertychangeevent.getPropertyName().equals("locale")) {
 					jCalendar.setLocale((Locale) propertychangeevent.getNewValue());
 				} else if (propertychangeevent.getPropertyName().equals("calendar")) {
@@ -267,11 +242,7 @@ public class EmaitzakIpiniGUI extends JFrame{
 							modelEvents.addElement(ev);
 						}
 						jComboBoxEvents.repaint();
-						
-						if (modelQuotes.getSize() == 0)
-							jButtonEmaitzaIpini.setEnabled(false);
-						else
-							jButtonEmaitzaIpini.setEnabled(true);
+						jButtonEmaitzaIpini.setEnabled(modelQuotes.getSize() != 0);
 
 					} catch (Exception e1) {
 
@@ -317,9 +288,8 @@ public static void paintDaysWithEvents(JCalendar jCalendar,List<Date> datesWithE
 			// the empty days before day 1 of month, and all the days previous to each day.
 			// That number of components is calculated with "offset" and is different in
 			// English and Spanish
-//			    		  Component o=(Component) jCalendar.getDayChooser().getDayPanel().getComponent(i+offset);; 
-			Component o = (Component) jCalendar.getDayChooser().getDayPanel()
-					.getComponent(calendar.get(Calendar.DAY_OF_MONTH) + offset);
+
+			Component o = jCalendar.getDayChooser().getDayPanel().getComponent(calendar.get(Calendar.DAY_OF_MONTH) + offset);
 			o.setBackground(Color.CYAN);
 	 	}
 	 	
@@ -330,7 +300,7 @@ public static void paintDaysWithEvents(JCalendar jCalendar,List<Date> datesWithE
 	 	
 	}
 
-	private void jButtonClose_actionPerformed(ActionEvent e) {
+	private void jButtonCloseActionPerformed(ActionEvent e) {
 		this.setVisible(false);
 	}
 

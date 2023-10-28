@@ -1,11 +1,8 @@
 package gui;
-
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 import java.util.ResourceBundle;
-
 import javax.swing.DefaultListModel;
 import javax.swing.JButton;
 import javax.swing.JFrame;
@@ -19,11 +16,11 @@ import domain.ApustuAnitza;
 import domain.Registered;
 
 public class ApustuBerdinakGUI extends JFrame{
-	private BLFacade businessLogic = MainGUI.getBusinessLogic();
+	private transient BLFacade businessLogic = MainGUI.getBusinessLogic();
 	private static final long serialVersionUID = 1L;
 	private JLabel lblApustuak;
-	private JList list;
-	private DefaultListModel<ApustuAnitza> apustuLista = new DefaultListModel<ApustuAnitza>();
+	private JList<ApustuAnitza> list;
+	private DefaultListModel<ApustuAnitza> apustuLista = new DefaultListModel<>();
 	private JScrollPane scrollBar;
 	private JButton btnClose;
 	private JLabel lblError;
@@ -42,7 +39,7 @@ public class ApustuBerdinakGUI extends JFrame{
 		lblApustuak.setBounds(10, 10, 366, 13);
 		getContentPane().add(lblApustuak);
 		
-		list = new JList();
+		list = new JList<>();
 		list.setModel(apustuLista);
 		list.setBounds(138, 70, 1, 1);
 		getContentPane().add(list);
@@ -55,7 +52,7 @@ public class ApustuBerdinakGUI extends JFrame{
 		btnClose = new JButton(ResourceBundle.getBundle(ETIQUETAS).getString("Close"));
 		btnClose.setBackground(Color.DARK_GRAY);
 		btnClose.setForeground(Color.WHITE);
-		btnClose.addActionListener(e -> jButtonClose_actionPerformed(e));
+		btnClose.addActionListener(e -> jButtonCloseActionPerformed(e));
 		btnClose.setBounds(278, 210, 98, 21);
 		getContentPane().add(btnClose);
 		
@@ -64,7 +61,7 @@ public class ApustuBerdinakGUI extends JFrame{
 		getContentPane().add(lblError);
 		
 	}
-	private void jButtonClose_actionPerformed(ActionEvent e) {
+	private void jButtonCloseActionPerformed(ActionEvent e) {
 		this.setVisible(false);
 	}
 }

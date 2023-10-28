@@ -19,7 +19,6 @@ import java.awt.Color;
 
 public class DiruaSartuGUI extends JFrame{
 	
-	private JPanel jContentPane = null;
 	private JTextField textFieldDiruaSartu;
 	private JLabel lblTitulo;
 	private JLabel lblError;
@@ -28,7 +27,7 @@ public class DiruaSartuGUI extends JFrame{
 	private Registered user; 
 	private static final long serialVersionUID = 1L;
 	private JButton jButtonClose;
-	private BLFacade businessLogic; 
+	private transient BLFacade businessLogic; 
 
 	
 	public DiruaSartuGUI(Registered u) {
@@ -76,7 +75,7 @@ public class DiruaSartuGUI extends JFrame{
 					
 					if(zenb>0.0) {
 						
-						businessLogic.DiruaSartu(user, zenb, "DiruaSartu");
+						businessLogic.diruaSartu(user, zenb, "DiruaSartu");
 						lblError.setVisible(true); 
 						lblError.setText(ResourceBundle.getBundle("Etiquetas").getString("DiruCorrect"));
 						
@@ -101,7 +100,7 @@ public class DiruaSartuGUI extends JFrame{
 		jButtonClose.setBackground(Color.DARK_GRAY);
 		jButtonClose.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				jButtonClose_actionPerformed(e);
+				jButtonCloseActionPerformed(e);
 			}
 		});
 		
@@ -111,7 +110,7 @@ public class DiruaSartuGUI extends JFrame{
 		
 		
 	}
-	private void jButtonClose_actionPerformed(ActionEvent e) {
+	private void jButtonCloseActionPerformed(ActionEvent e) {
 		this.setVisible(false);
 	}
 }

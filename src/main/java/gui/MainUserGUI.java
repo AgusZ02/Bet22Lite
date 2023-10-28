@@ -21,7 +21,6 @@ import javax.swing.JRadioButton;
 import javax.swing.SwingConstants;
 
 import businessLogic.BLFacade;
-import domain.Registered;
 
 
 public class MainUserGUI extends JFrame {
@@ -43,8 +42,8 @@ public class MainUserGUI extends JFrame {
 	}
 	protected JLabel jLabelSelectOption;
 	private JRadioButton rdbtnNewRadioButton;
-	private JRadioButton rdbtnNewRadioButton_1;
-	private JRadioButton rdbtnNewRadioButton_2;
+	private JRadioButton rdbtnNewRadioButton1;
+	private JRadioButton rdbtnNewRadioButton2;
 	private JPanel panel;
 	private final ButtonGroup buttonGroup = new ButtonGroup();
 
@@ -61,18 +60,11 @@ public class MainUserGUI extends JFrame {
 		addWindowListener(new WindowAdapter() {
 			@Override
 			public void windowClosing(WindowEvent e) {
-				try {
-					//if (ConfigXML.getInstance().isBusinessLogicLocal()) facade.close();
-				} catch (Exception e1) {
-					// TODO Auto-generated catch block
-					System.out.println("Error: "+e1.toString()+" , probably problems with Business Logic or Database");
-				}
 				System.exit(1);
 			}
 		});
 
 		initialize();
-		//this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 	}
 	
 	
@@ -83,7 +75,6 @@ public class MainUserGUI extends JFrame {
 	 * @return void
 	 */
 	private void initialize() {
-		// this.setSize(271, 295);
 		thisw = this;
 		this.setSize(495, 290);
 		this.setContentPane(getJContentPane());
@@ -173,39 +164,39 @@ public class MainUserGUI extends JFrame {
 		}
 		return rdbtnNewRadioButton;
 	}
-	private JRadioButton getRdbtnNewRadioButton_1() {
-		if (rdbtnNewRadioButton_1 == null) {
-			rdbtnNewRadioButton_1 = new JRadioButton("Euskara");
-			rdbtnNewRadioButton_1.addActionListener(new ActionListener() {
+	private JRadioButton getRdbtnNewRadioButton1() {
+		if (rdbtnNewRadioButton1 == null) {
+			rdbtnNewRadioButton1 = new JRadioButton("Euskara");
+			rdbtnNewRadioButton1.addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent arg0) {
 					Locale.setDefault(new Locale("eus"));
 					System.out.println("Locale: "+Locale.getDefault());
 					redibujar();				}
 			});
-			buttonGroup.add(rdbtnNewRadioButton_1);
+			buttonGroup.add(rdbtnNewRadioButton1);
 		}
-		return rdbtnNewRadioButton_1;
+		return rdbtnNewRadioButton1;
 	}
-	private JRadioButton getRdbtnNewRadioButton_2() {
-		if (rdbtnNewRadioButton_2 == null) {
-			rdbtnNewRadioButton_2 = new JRadioButton("Castellano");
-			rdbtnNewRadioButton_2.addActionListener(new ActionListener() {
+	private JRadioButton getRdbtnNewRadioButton2() {
+		if (rdbtnNewRadioButton2 == null) {
+			rdbtnNewRadioButton2 = new JRadioButton("Castellano");
+			rdbtnNewRadioButton2.addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent e) {
 					Locale.setDefault(new Locale("es"));
 					System.out.println("Locale: "+Locale.getDefault());
 					redibujar();
 				}
 			});
-			buttonGroup.add(rdbtnNewRadioButton_2);
+			buttonGroup.add(rdbtnNewRadioButton2);
 		}
-		return rdbtnNewRadioButton_2;
+		return rdbtnNewRadioButton2;
 	}
 	private JPanel getPanel() {
 		if (panel == null) {
 			panel = new JPanel();
 			panel.setBounds(0, 189, 481, 63);
-			panel.add(getRdbtnNewRadioButton_1());
-			panel.add(getRdbtnNewRadioButton_2());
+			panel.add(getRdbtnNewRadioButton1());
+			panel.add(getRdbtnNewRadioButton2());
 			panel.add(getRdbtnNewRadioButton());
 		}
 		return panel;
@@ -216,7 +207,6 @@ public class MainUserGUI extends JFrame {
 		jButtonQueryQueries.setText(ResourceBundle.getBundle("Etiquetas").getString("QueryQueries"));
 		loginButton.setText(ResourceBundle.getBundle("Etiquetas").getString("Login"));
 		registerButton.setText(ResourceBundle.getBundle("Etiquetas").getString("Register"));
-		//jButtonCreateQuery.setText(ResourceBundle.getBundle("Etiquetas").getString("CreateQuery"));
 		this.setTitle(ResourceBundle.getBundle("Etiquetas").getString("MainTitle"));
 	}
 } // @jve:decl-index=0:visual-constraint="0,0"

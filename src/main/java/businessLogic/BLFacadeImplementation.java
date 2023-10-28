@@ -4,7 +4,7 @@ import java.util.Collection;
 import java.util.Date;
 import java.util.List;
 import java.util.ResourceBundle;
-import java.util.Vector;
+
 
 import javax.jws.WebMethod;
 import javax.jws.WebService;
@@ -31,13 +31,13 @@ import exceptions.QuoteAlreadyExist;
 @WebService(endpointInterface = "businessLogic.BLFacade")
 public class BLFacadeImplementation  implements BLFacade {
 	DataAccess dbManager;
-
+	private static final String initialize = "initialize";
 	public BLFacadeImplementation()  {		
 		System.out.println("Creating BLFacadeImplementation instance");
 		ConfigXML c=ConfigXML.getInstance();
 		
-		if (c.getDataBaseOpenMode().equals("initialize")) {
-		    dbManager=new DataAccess(c.getDataBaseOpenMode().equals("initialize"));
+		if (c.getDataBaseOpenMode().equals(initialize)) {
+		    dbManager=new DataAccess(c.getDataBaseOpenMode().equals(initialize));
 		    dbManager.initializeDB();
 		    } else
 		     dbManager=new DataAccess();
@@ -51,7 +51,7 @@ public class BLFacadeImplementation  implements BLFacade {
 		System.out.println("Creating BLFacadeImplementation instance with DataAccess parameter");
 		ConfigXML c=ConfigXML.getInstance();
 		
-		if (c.getDataBaseOpenMode().equals("initialize")) {
+		if (c.getDataBaseOpenMode().equals(initialize)) {
 			da.open(true);
 			da.initializeDB();			
 			da.close();
@@ -128,7 +128,7 @@ public class BLFacadeImplementation  implements BLFacade {
 
 	/**
 	 * This method invokes the data access to initialize the database with some events and questions.
-	 * It is invoked only when the option "initialize" is declared in the tag dataBaseOpenMode of resources/config.xml file
+	 * It is invoked only when the option initialize is declared in the tag dataBaseOpenMode of resources/config.xml file
 	 */	
     @WebMethod	
 	 public void initializeBD(){
@@ -159,18 +159,16 @@ public class BLFacadeImplementation  implements BLFacade {
     }
     @WebMethod	
     public boolean gertaerakSortu(String description,Date eventDate, String sport) throws EventFinished{
-    	if(new Date().compareTo(eventDate)>0)
-			throw new EventFinished("Gertaera honen data dagoeneko pasa da");
-    	
+    	if(new Date().compareTo(eventDate)>0) throw new EventFinished("Gertaera honen data dagoeneko pasa da");
     	dbManager.open(false);
     	boolean b = dbManager.gertaerakSortu(description, eventDate, sport);
     	dbManager.close();
     	return b;
     }
     @WebMethod	
-    public void storeQuote(String forecast, Double Quote, Question question) throws QuoteAlreadyExist {
+    public void storeQuote(String forecast, Double quote, Question question) throws QuoteAlreadyExist {
     	dbManager.open(false);
-    	dbManager.storeQuote(forecast, Quote, question);
+    	dbManager.storeQuote(forecast, quote, question);
     	dbManager.close();
     }
     @WebMethod	
@@ -188,16 +186,16 @@ public class BLFacadeImplementation  implements BLFacade {
 		return v;
     }
     @WebMethod	
-    public void DiruaSartu(Registered u, Double dirua, String mota) {
+    public void diruaSartu(Registered u, Double dirua, String mota) {
     	Date data = new Date();
     	dbManager.open(false); 
-    	dbManager.DiruaSartu(u, dirua, data, mota);
+    	dbManager.diruaSartu(u, dirua, data, mota);
     	dbManager.close();
     }
     @WebMethod	
-    public boolean ApustuaEgin(Registered u, Vector<Quote> q, Double balioa, Integer apustuaGalarazi) {
+    public boolean apustuaEgin(Registered u, List<Quote> q, Double balioa, Integer apustuaGalarazi) {
     	dbManager.open(false);
-    	boolean b = dbManager.ApustuaEgin(u, q, balioa, apustuaGalarazi);
+    	boolean b = dbManager.apustuaEgin(u, q, balioa, apustuaGalarazi);
     	dbManager.close();
     	return b; 
     }
@@ -216,14 +214,7 @@ public class BLFacadeImplementation  implements BLFacade {
     	dbManager.close();
     	return a;
     }
-    /*
-    @WebMethod	
-    public List<ApustuaContainer> findApustuaContainer(User u){
-    	dbManager.open(false);
-    	List<ApustuaContainer> a = dbManager.findApustuaContainer(u); 
-    	dbManager.close();
-    	return a; 
-    }*/
+
     @WebMethod	
     public void apustuaEzabatu(Registered user1, ApustuAnitza apustua) {
     	dbManager.open(false);

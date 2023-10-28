@@ -21,15 +21,14 @@ import javax.swing.event.ListSelectionListener;
 
 import businessLogic.BLFacade;
 import domain.Event;
-import exceptions.EventFinished;
 
 public class GertaerakKopiatuGUI extends JFrame{
 	private static final long serialVersionUID = 1L;
-	private BLFacade businessLogic = MainGUI.getBusinessLogic();
+	private transient BLFacade businessLogic = MainGUI.getBusinessLogic();
 	private JLabel lblGertaerakKopiatu;
 	private JScrollPane scrollBar;
-	private JList list;
-	private DefaultListModel<Event> eventsLista = new DefaultListModel<Event>();
+	private JList<Event> list;
+	private DefaultListModel<Event> eventsLista = new DefaultListModel<>();
 	private JLabel lblYear;
 	private JLabel lblMonth;
 	private JLabel lblDay;
@@ -53,7 +52,7 @@ public class GertaerakKopiatuGUI extends JFrame{
 		lblGertaerakKopiatu.setBounds(2, 10, 439, 13);
 		getContentPane().add(lblGertaerakKopiatu);
 		
-		list = new JList();
+		list = new JList<>();
 		list.addListSelectionListener(new ListSelectionListener() {
 			public void valueChanged(ListSelectionEvent e) {
 				btnCopy.setEnabled(true);
@@ -128,7 +127,7 @@ public class GertaerakKopiatuGUI extends JFrame{
 		btnClose.setForeground(Color.WHITE);
 		btnClose.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				jButtonClose_actionPerformed(e);
+				jButtonCloseActionPerformed(e);
 			}
 		});
 		btnClose.setBounds(327, 291, 85, 21);
@@ -149,7 +148,7 @@ public class GertaerakKopiatuGUI extends JFrame{
 						lblError.setVisible(false);
 						java.util.Date date =newDate(Integer.parseInt(txtYear.getText()),Integer.parseInt(txtMonth.getText())-1,Integer.parseInt(txtDay.getText()));	
 						if(date.compareTo(new Date())>=0) {
-							b = businessLogic.gertaerakKopiatu((Event)list.getSelectedValue(), date);
+							b = businessLogic.gertaerakKopiatu(list.getSelectedValue(), date);
 						}else if(date.compareTo(new Date())<0){
 							lblError.setVisible(true);
 							lblError.setText(ResourceBundle.getBundle("Etiquetas").getString("GertaeraKopiatuError"));
@@ -181,7 +180,7 @@ public class GertaerakKopiatuGUI extends JFrame{
 		
 		btnInfo.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				JFrame a = new GertaeraInfo((Event)list.getSelectedValue());
+				JFrame a = new GertaeraInfo(list.getSelectedValue());
 				a.setVisible(true);
 			}
 		});
@@ -190,7 +189,7 @@ public class GertaerakKopiatuGUI extends JFrame{
 		
 		
 	}
-	private void jButtonClose_actionPerformed(ActionEvent e) {
+	private void jButtonCloseActionPerformed(ActionEvent e) {
 		this.setVisible(false);
 	}
 	

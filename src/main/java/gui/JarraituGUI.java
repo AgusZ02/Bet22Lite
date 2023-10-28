@@ -22,11 +22,11 @@ import domain.Registered;
 import javax.swing.JTextField;
 
 public class JarraituGUI extends JFrame{
-	private BLFacade businessLogic = MainGUI.getBusinessLogic();
+	private transient BLFacade businessLogic = MainGUI.getBusinessLogic();
 	private static final long serialVersionUID = 1L;
 	private JLabel lblRanking;
-	private JList list;
-	private DefaultListModel<Registered> rankingLista = new DefaultListModel<Registered>();
+	private JList<Registered> list;
+	private DefaultListModel<Registered> rankingLista = new DefaultListModel<>();
 	private JScrollPane scrollBar;
 	private JButton btnClose;
 	private JButton btnInfo;
@@ -52,7 +52,7 @@ public class JarraituGUI extends JFrame{
 		lblRanking.setBounds(10, 21, 366, 13);
 		getContentPane().add(lblRanking);
 		
-		list = new JList();
+		list = new JList<>();
 		
 		lblError = new JLabel(); //$NON-NLS-1$ //$NON-NLS-2$
 		lblError.setHorizontalAlignment(SwingConstants.CENTER);
@@ -67,14 +67,14 @@ public class JarraituGUI extends JFrame{
 				try {
 					zenb = Double.parseDouble(textua);
 					if(zenb>0.0) {
-						if(((Registered)user).getUsername().equals(((Registered)list.getSelectedValue()).getUsername())){
+						if((user).getUsername().equals((list.getSelectedValue()).getUsername())){
 							lblError.setVisible(true);
-							lblError.setText(ResourceBundle.getBundle("Etiquetas").getString("JarraituError2") + ((Registered)list.getSelectedValue()).getUsername());
+							lblError.setText(ResourceBundle.getBundle("Etiquetas").getString("JarraituError2") + (list.getSelectedValue()).getUsername());
 						}else {
-							b = businessLogic.jarraitu((Registered)user, (Registered)list.getSelectedValue(), zenb);
+							b = businessLogic.jarraitu(user, list.getSelectedValue(), zenb);
 							if(b) {
 								lblError.setVisible(true);
-								lblError.setText(ResourceBundle.getBundle("Etiquetas").getString("JarraituCorrect") + ((Registered)list.getSelectedValue()).getUsername());
+								lblError.setText(ResourceBundle.getBundle("Etiquetas").getString("JarraituCorrect") + (list.getSelectedValue()).getUsername());
 							}else {
 								lblError.setVisible(true);
 								lblError.setText(ResourceBundle.getBundle("Etiquetas").getString("JarraituError"));
@@ -97,7 +97,7 @@ public class JarraituGUI extends JFrame{
 		btnInfo.setBackground(Color.PINK);
 		btnInfo.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				JFrame a = new ApustuBerdinakGUI((Registered) list.getSelectedValue());
+				JFrame a = new ApustuBerdinakGUI(user);
 				a.setVisible(true);
 			}
 		});
@@ -127,7 +127,7 @@ public class JarraituGUI extends JFrame{
 		btnClose.setForeground(Color.WHITE);
 		btnClose.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				jButtonClose_actionPerformed(e);
+				jButtonCloseActionPerformed(e);
 			}
 		});
 		btnClose.setBounds(291, 227, 85, 21);
@@ -162,7 +162,7 @@ public class JarraituGUI extends JFrame{
 		
 	}
 	
-	private void jButtonClose_actionPerformed(ActionEvent e) {
+	private void jButtonCloseActionPerformed(ActionEvent e) {
 		this.setVisible(false);
 	}
 }

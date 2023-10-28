@@ -35,20 +35,17 @@ import configuration.UtilDate;
 import domain.Event;
 import domain.Question;
 import domain.Quote;
-import domain.Transaction;
 import domain.Registered;
-import exceptions.ApustuaAlreadyExist;
-import exceptions.EventFinished;
 import java.awt.Font;
 
 public class apustuaEginGUI extends JFrame{
 
-	private BLFacade businessLogic = MainGUI.getBusinessLogic();
+	private transient BLFacade businessLogic = MainGUI.getBusinessLogic();
 
 	private static final long serialVersionUID = 1L;
 
-	private JComboBox<Event> jComboBoxEvents = new JComboBox<Event>();
-	DefaultComboBoxModel<Event> modelEvents = new DefaultComboBoxModel<Event>();
+	private JComboBox<Event> jComboBoxEvents = new JComboBox<>();
+	DefaultComboBoxModel<Event> modelEvents = new DefaultComboBoxModel<>();
 	
 	private JLabel jLabelListOfEvents = new JLabel(ResourceBundle.getBundle("Etiquetas").getString("ListEvents"));
 	private JLabel jLabelEventDate = new JLabel(ResourceBundle.getBundle("Etiquetas").getString("EventDate"));
@@ -59,18 +56,18 @@ public class apustuaEginGUI extends JFrame{
 	private JScrollPane scrollPaneEvents = new JScrollPane();
 	private JButton jButtonClose = new JButton(ResourceBundle.getBundle("Etiquetas").getString("Close"));
 	
-	private List<Date> datesWithEventsCurrentMonth = new ArrayList<Date>();
+	private List<Date> datesWithEventsCurrentMonth = new ArrayList<>();
 	private final JLabel jLabelQuestion = new JLabel(); //$NON-NLS-1$ //$NON-NLS-2$
-	private final JComboBox<Question> jComboBoxQuestions = new JComboBox<Question>();
-	DefaultComboBoxModel<Question> modelQuestions = new DefaultComboBoxModel<Question>();
+	private final JComboBox<Question> jComboBoxQuestions = new JComboBox<>();
+	DefaultComboBoxModel<Question> modelQuestions = new DefaultComboBoxModel<>();
 	
 	private domain.Event event;
 	private final JLabel jLabelQuotes = new JLabel(); 
 	private final JTextField textFieldDiruKop = new JTextField();
 	private final JButton jButtonCreate = new JButton();
 
-	private JComboBox jComboBoxQuotes;
-	DefaultComboBoxModel<Quote> modelQuotes = new DefaultComboBoxModel<Quote>();
+	private JComboBox<domain.Quote> jComboBoxQuotes;
+	DefaultComboBoxModel<Quote> modelQuotes = new DefaultComboBoxModel<>();
 	
 	private Registered user; 
 	private final JLabel lblError = new JLabel("Errorea");
@@ -78,20 +75,20 @@ public class apustuaEginGUI extends JFrame{
 	private JScrollPane scrollBar;
 
 	private JList<Quote> list;
-	private DefaultListModel<Quote> quoteList = new DefaultListModel<Quote>();
+	private DefaultListModel<Quote> quoteList = new DefaultListModel<>();
 	
 	private final JButton btnApustuaGehitu = new JButton(ResourceBundle.getBundle("Etiquetas").getString("ApustuaGehitu"));
 	
 	private Double maxMinBet=0.0;
 	
-	private Vector<Quote> quoteVec = new Vector<Quote>();
+	private List<Quote> quoteVec = new ArrayList<>();
 
 	private JLabel lblApustua;
 
 	private JButton jButtonFinish;
 	
 	
-	public apustuaEginGUI(Vector<domain.Event> v, Registered u, Quote q) {
+	public apustuaEginGUI(Registered u, Quote q) {
 		user = u; 
 		textFieldDiruKop.setFont(new Font("Tahoma", Font.PLAIN, 16));
 		textFieldDiruKop.setHorizontalAlignment(SwingConstants.CENTER);
@@ -99,17 +96,17 @@ public class apustuaEginGUI extends JFrame{
 		textFieldDiruKop.setBounds(210, 313, 394, 37);
 		textFieldDiruKop.setColumns(10);
 		try {
-			jbInit(v, q);
+			jbInit(q);
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
 	}
 
-	private void jbInit(Vector<domain.Event> v, Quote q) throws Exception {
+	private void jbInit(Quote q) throws Exception {
 
 		this.getContentPane().setLayout(null);
 		this.setSize(new Dimension(1250, 470));
-		this.setTitle(ResourceBundle.getBundle("Etiquetas").getString("ApustuaEgin"));
+		this.setTitle(ResourceBundle.getBundle("Etiquetas").getString("apustuaEgin"));
 		jComboBoxEvents.setFont(new Font("Tahoma", Font.PLAIN, 16));
 		
 
@@ -172,7 +169,7 @@ public class apustuaEginGUI extends JFrame{
 		
 		getContentPane().add(jLabelQuotes);
 		
-		jComboBoxQuotes = new JComboBox();
+		jComboBoxQuotes = new JComboBox<>();
 		jComboBoxQuotes.setFont(new Font("Tahoma", Font.PLAIN, 16));
 		jComboBoxQuotes.setBounds(330, 235, 274, 34);
 		jComboBoxQuotes.setModel(modelQuotes);
@@ -186,11 +183,7 @@ public class apustuaEginGUI extends JFrame{
 				for(domain.Quote quote : businessLogic.findQuote(q)) {
 					modelQuotes.addElement(quote); 
 				}
-				if(modelQuotes.getSize()==0) {
-					btnApustuaGehitu.setEnabled(false);
-				}else {
-					btnApustuaGehitu.setEnabled(true);
-				}
+				btnApustuaGehitu.setEnabled(modelQuotes.getSize()!=0);
 			}
 		});
 		
@@ -218,7 +211,7 @@ public class apustuaEginGUI extends JFrame{
 		jButtonCreate.setBackground(new Color(255, 105, 180));
 		
 		jButtonCreate.setVisible(false);
-		jButtonCreate.setText(ResourceBundle.getBundle("Etiquetas").getString("ApustuaEgin"));
+		jButtonCreate.setText(ResourceBundle.getBundle("Etiquetas").getString("apustuaEgin"));
 		jButtonCreate.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				String textua = textFieldDiruKop.getText().trim(); 
@@ -227,7 +220,7 @@ public class apustuaEginGUI extends JFrame{
 					zenb = Double.parseDouble(textua);
 					if(zenb>0.0) {
 						if(zenb>=maxMinBet) {
-							Boolean b = businessLogic.ApustuaEgin(user, quoteVec, zenb, -1);
+							Boolean b = businessLogic.apustuaEgin(user, quoteVec, zenb, -1);
 							quoteList= new DefaultListModel<Quote>();
 							quoteVec= new Vector<Quote>();
 							list.setModel(quoteList);
@@ -238,7 +231,6 @@ public class apustuaEginGUI extends JFrame{
 								btnApustuaGehitu.setVisible(true);
 								jButtonCreate.setVisible(false);
 								textFieldDiruKop.setVisible(false);
-								//jLabelDiruKopurua.setVisible(false);
 							}else {
 								lblError.setVisible(true); 
 								lblError.setText(ResourceBundle.getBundle("Etiquetas").getString("ApustuaError1")); 
@@ -280,14 +272,12 @@ public class apustuaEginGUI extends JFrame{
 		jButtonFinish.setEnabled(false);
 		jButtonFinish.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				//jLabelDiruKopurua.setVisible(true);
 				textFieldDiruKop.setVisible(true);
 				btnApustuaGehitu.setVisible(false);
 				jButtonCreate.setVisible(true);
 				jButtonCreate.setEnabled(true);
 				jButtonFinish.setEnabled(false);
 				textFieldDiruKop.setVisible(true);
-				//jLabelDiruKopurua.setVisible(true);
 				textFieldDiruKop.setText("");
 			}
 		});
@@ -355,8 +345,6 @@ public class apustuaEginGUI extends JFrame{
 					
 					btnApustuaGehitu.setEnabled(false);
 				}
-//				this.jCalendar.addPropertyChangeListener(new PropertyChangeListener() {
-//					public void propertyChange(PropertyChangeEvent propertychangeevent) {
 				if (propertychangeevent.getPropertyName().equals("locale")) {
 					jCalendar.setLocale((Locale) propertychangeevent.getNewValue());
 				} else if (propertychangeevent.getPropertyName().equals("calendar")) {

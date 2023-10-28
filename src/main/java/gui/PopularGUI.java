@@ -38,20 +38,20 @@ public class PopularGUI extends JFrame{
 
 	private JLabel lblSport;
 
-	private JList list;
-	private DefaultListModel<Event> eventLista = new DefaultListModel<Event>();
+	private JList<Event> list;
+	private DefaultListModel<Event> eventLista = new DefaultListModel<>();
 
 	private JScrollPane scrollBar;
 
 	private JLabel lblEvent;
 	private JLabel lblQuestion;
-	private JList list_1;
-	private DefaultListModel<Question> questionLista = new DefaultListModel<Question>();
-	private JScrollPane scrollBar_1;
+	private JList<Question> list1;
+	private DefaultListModel<Question> questionLista = new DefaultListModel<>();
+	private JScrollPane scrollBar1;
 	private JLabel lblQuote;
-	private JList list_2;
-	private DefaultListModel<Quote> quoteLista = new DefaultListModel<Quote>();
-	private JScrollPane scrollBar_2;
+	private JList<Quote> list2;
+	private DefaultListModel<Quote> quoteLista = new DefaultListModel<>();
+	private JScrollPane scrollBar2;
 
 	private JButton btnClose;
 	private JButton btnApostar;
@@ -101,7 +101,7 @@ public class PopularGUI extends JFrame{
 		    imageIcon = new ImageIcon(newimg);
 	        lblSport.setIcon(imageIcon);
 		}
-		list = new JList();
+		list = new JList<>();
 		list.setFont(new Font("Tahoma", Font.PLAIN, 18));
 		list.addListSelectionListener(new ListSelectionListener() {
 			public void valueChanged(ListSelectionEvent e) {
@@ -136,13 +136,13 @@ public class PopularGUI extends JFrame{
 		lblQuestion.setBounds(36, 294, 95, 25);
 		getContentPane().add(lblQuestion);
 		
-		list_1 = new JList();
-		list_1.setFont(new Font("Tahoma", Font.PLAIN, 18));
-		list_1.addListSelectionListener(new ListSelectionListener() {
+		list1 = new JList();
+		list1.setFont(new Font("Tahoma", Font.PLAIN, 18));
+		list1.addListSelectionListener(new ListSelectionListener() {
 			public void valueChanged(ListSelectionEvent e) {
 				btnApostar.setEnabled(false);
 				quoteLista.removeAllElements();
-				for(domain.Quote quote : businessLogic.findQuote((Question)list_1.getSelectedValue()))
+				for(domain.Quote quote : businessLogic.findQuote((Question)list1.getSelectedValue()))
 					quoteLista.addElement(quote);
 				if(quoteLista.size()==0) {
 					btnApostar.setEnabled(false);
@@ -152,38 +152,38 @@ public class PopularGUI extends JFrame{
 					btnApostar.setEnabled(true);
 					lblErrorQuote.setVisible(false);
 				}
-				if(list_2.getSelectedValue()==null) {
+				if(list2.getSelectedValue()==null) {
 					btnApostar.setEnabled(false);
 				}
 			}
 		});
-		list_1.setModel(questionLista);
-		list_1.setBounds(36, 191, 1, 1);
-		getContentPane().add(list_1);
+		list1.setModel(questionLista);
+		list1.setBounds(36, 191, 1, 1);
+		getContentPane().add(list1);
 		
-		scrollBar_1 = new JScrollPane(list_1);
-		scrollBar_1.setBounds(36, 329, 472, 155);
-		getContentPane().add(scrollBar_1);
+		scrollBar1 = new JScrollPane(list1);
+		scrollBar1.setBounds(36, 329, 472, 155);
+		getContentPane().add(scrollBar1);
 		
 		lblQuote = new JLabel(ResourceBundle.getBundle("Etiquetas").getString("Quote")); //$NON-NLS-1$ //$NON-NLS-2$
 		lblQuote.setFont(new Font("Tahoma", Font.PLAIN, 18));
 		lblQuote.setBounds(36, 494, 95, 25);
 		getContentPane().add(lblQuote);
 		
-		list_2 = new JList();
-		list_2.setFont(new Font("Tahoma", Font.PLAIN, 18));
-		list_2.addListSelectionListener(new ListSelectionListener() {
+		list2 = new JList();
+		list2.setFont(new Font("Tahoma", Font.PLAIN, 18));
+		list2.addListSelectionListener(new ListSelectionListener() {
 			public void valueChanged(ListSelectionEvent e) {
 				btnApostar.setEnabled(true);
 			}
 		});
-		list_2.setModel(quoteLista);
-		list_2.setBounds(46, 315, 1, 1);
-		getContentPane().add(list_2);
+		list2.setModel(quoteLista);
+		list2.setBounds(46, 315, 1, 1);
+		getContentPane().add(list2);
 		
-		scrollBar_2 = new JScrollPane(list_2);
-		scrollBar_2.setBounds(36, 529, 472, 157);
-		getContentPane().add(scrollBar_2);
+		scrollBar2 = new JScrollPane(list2);
+		scrollBar2.setBounds(36, 529, 472, 157);
+		getContentPane().add(scrollBar2);
 		
 		eventLista.addAll(s.getEvents());
 		
@@ -193,7 +193,7 @@ public class PopularGUI extends JFrame{
 		btnClose.setBackground(Color.DARK_GRAY);
 		btnClose.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				jButtonClose_actionPerformed(e);
+				jButtonCloseActionPerformed(e);
 				JFrame a = new DestacadosGUI(user);
 				a.setVisible(true);
 			}
@@ -208,7 +208,7 @@ public class PopularGUI extends JFrame{
 		btnApostar.setForeground(Color.DARK_GRAY);
 		btnApostar.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				JFrame a =new apustuaEginGUI(new Vector<Event>(),user, (Quote)list_2.getSelectedValue());
+				JFrame a =new apustuaEginGUI(user, (Quote)list2.getSelectedValue());
 				a.setVisible(true);
 				thisw.setVisible(false);
 			}
@@ -226,7 +226,7 @@ public class PopularGUI extends JFrame{
 		lblErrorQuote.setBounds(128, 494, 380, 24);
 		getContentPane().add(lblErrorQuote);
 	}
-	private void jButtonClose_actionPerformed(ActionEvent e) {
+	private void jButtonCloseActionPerformed(ActionEvent e) {
 		this.setVisible(false);
 	}
 }

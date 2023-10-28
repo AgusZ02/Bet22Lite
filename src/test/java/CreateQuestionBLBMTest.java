@@ -1,6 +1,7 @@
 import static org.junit.Assert.assertTrue;
 import static org.junit.Assert.fail;
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNull;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -46,7 +47,6 @@ public class CreateQuestionBLBMTest {
 				try {
 					oneDate = sdf.parse("05/10/2022");
 				} catch (ParseException e) {
-					// TODO Auto-generated catch block
 					e.printStackTrace();
 				}	
 				
@@ -55,9 +55,6 @@ public class CreateQuestionBLBMTest {
 				Mockito.doReturn(new Question(queryText, betMinimum,mockedEvent)).when(dataAccess).createQuestion(Mockito.any(Event.class),Mockito.any(String.class), Mockito.any(Integer.class));
 
 				
-
-				//invoke System Under Test (sut) 
-				Question q=sut.createQuestion(mockedEvent, queryText, betMinimum);
 				
 				//verify the results
 				//Mockito.verify(dataAccess,Mockito.times(1)).createQuestion(Mockito.any(Event.class),Mockito.any(String.class), Mockito.any(Integer.class));
@@ -68,19 +65,13 @@ public class CreateQuestionBLBMTest {
 				ArgumentCaptor<Float> betMinimunCaptor = ArgumentCaptor.forClass(Float.class);
 				
 				Mockito.verify(dataAccess,Mockito.times(1)).createQuestion(eventCaptor.capture(),questionStringCaptor.capture(), betMinimunCaptor.capture());
-				Float f=betMinimunCaptor.getValue();
 
 				assertEquals(eventCaptor.getValue(),mockedEvent);
 				assertEquals(questionStringCaptor.getValue(),queryText);
 				assertEquals(betMinimunCaptor.getValue(),betMinimum);
 
 			   } catch (QuestionAlreadyExist e) {
-				// TODO Auto-generated catch block
 				assertTrue(true);
-				} catch (EventFinished e) {
-				    fail();
-					// TODO Auto-generated catch block
-					e.printStackTrace();
 				}
 			   }
 	@Test
@@ -95,7 +86,6 @@ public class CreateQuestionBLBMTest {
 			try {
 				oneDate = sdf.parse("05/10/2022");
 			} catch (ParseException e) {
-				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}	
 			
@@ -113,15 +103,14 @@ public class CreateQuestionBLBMTest {
 			
 			
 
-			assertTrue(q==null);
+			assertNull(q);
 			
 
 		   } catch (QuestionAlreadyExist e) {
-			// TODO Auto-generated catch block
+
 			fail();
 			} catch (EventFinished e) {
 			    fail();
-				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
 		   }
@@ -136,7 +125,6 @@ public class CreateQuestionBLBMTest {
 			try {
 				oneDate = sdf.parse("05/10/2022");
 			} catch (ParseException e) {
-				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}	
 			
@@ -151,14 +139,11 @@ public class CreateQuestionBLBMTest {
 			//if the program continues fail
 		    fail();
 		   } catch (QuestionAlreadyExist e) {
-			// TODO Auto-generated catch block
-			   
 			// if the program goes to this point OK
 			assertTrue(true);
 			} catch (EventFinished e) {
 				// if the program goes to this point fail
 			    fail();
-				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
 		   }

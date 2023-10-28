@@ -589,10 +589,10 @@ public DataAccess(boolean initializeMode)  {
 			
 			db.getTransaction().commit();
 			String a = "Diruasartu";
-			this.DiruaSartu(reg1, 50.0, new Date(), a);
-			this.DiruaSartu(reg2, 50.0, new Date(), a);
-			this.DiruaSartu(reg3, 50.0, new Date(), a);
-			this.DiruaSartu(reg4, 50.0, new Date(), a);
+			this.diruaSartu(reg1, 50.0, new Date(), a);
+			this.diruaSartu(reg2, 50.0, new Date(), a);
+			this.diruaSartu(reg3, 50.0, new Date(), a);
+			this.diruaSartu(reg4, 50.0, new Date(), a);
 			
 			logger.info("Db initialized");
 		}
@@ -696,7 +696,7 @@ public void open(boolean initializeMode){
 		
 	}
 	public boolean existQuestion(Event event, String question) {
-		logger.info(">> DataAccess: existQuestion=> event= "+event+" question= "+question);
+		logger.info(String.format(">> DataAccess: existQuestion=> event=%s question= %s",event.getDescription(), question));
 		Event ev = db.find(Event.class, event.getEventNumber());
 		return ev.DoesQuestionExists(question);
 	
@@ -815,7 +815,7 @@ public void open(boolean initializeMode){
 		return qQuery.getResultList();
 	}
 	
-	public void DiruaSartu(Registered u, Double dirua, Date data, String mota) {
+	public void diruaSartu(Registered u, Double dirua, Date data, String mota) {
 		Registered user = db.find(Registered.class, u.getUsername()); 
 		db.getTransaction().begin();
 		Transaction t = new Transaction(user, dirua, data, mota); 
@@ -826,7 +826,7 @@ public void open(boolean initializeMode){
 		db.getTransaction().commit();
 	}
 	
-	public boolean ApustuaEgin(Registered u, List<Quote> quote, Double balioa, Integer apustuBikoitzaGalarazi) {
+	public boolean apustuaEgin(Registered u, List<Quote> quote, Double balioa, Integer apustuBikoitzaGalarazi) {
 		Registered user = db.find(Registered.class, u.getUsername());
 		Boolean b = true;
 		if (user == null || user.getDirukop()<balioa) {
@@ -871,9 +871,9 @@ public void open(boolean initializeMode){
 			}
 			if(b) {
 				if(erab.getNork().getDiruLimitea()<balioa) {
-					this.ApustuaEgin(erab.getNork(), quote, erab.getNork().getDiruLimitea(), apustuBikoitzaGalarazi);
+					this.apustuaEgin(erab.getNork(), quote, erab.getNork().getDiruLimitea(), apustuBikoitzaGalarazi);
 				}else{
-					this.ApustuaEgin(erab.getNork(), quote, balioa, apustuBikoitzaGalarazi);
+					this.apustuaEgin(erab.getNork(), quote, balioa, apustuBikoitzaGalarazi);
 				}
 			}
 		}
@@ -920,7 +920,7 @@ public void open(boolean initializeMode){
 		
 	}
 	
-	public void ApustuaIrabazi(ApustuAnitza apustua) {
+	public void apustuaIrabazi(ApustuAnitza apustua) {
 		ApustuAnitza apustuAnitza = db.find(ApustuAnitza.class, apustua.getApustuAnitzaNumber());
 		Registered reg = apustuAnitza.getUser();
 		Registered r = db.find(Registered.class, reg.getUsername());
@@ -933,7 +933,7 @@ public void open(boolean initializeMode){
 		r.updateDiruKontua(d);
 		r.setIrabazitakoa(r.getIrabazitakoa()+d);
 		r.setZenbat(r.getZenbat()+1);
-		Transaction t = new Transaction(r, d, new Date(), "ApustuaIrabazi"); 
+		Transaction t = new Transaction(r, d, new Date(), "apustuaIrabazi"); 
 		db.persist(t);
 		db.getTransaction().commit();
 	}
@@ -958,7 +958,7 @@ public void open(boolean initializeMode){
 			Boolean bool=a.getApustuAnitza().irabazitaMarkatu();
 			db.getTransaction().commit();
 			if(bool) {
-				this.ApustuaIrabazi(a.getApustuAnitza());
+				this.apustuaIrabazi(a.getApustuAnitza());
 			}
 		}
 	}
@@ -1007,7 +1007,7 @@ public void open(boolean initializeMode){
 					if(ap1.getApustuak().isEmpty() && !ap1.getEgoera().equals("galduta")) {
 						this.apustuaEzabatu(ap1.getUser(), ap1);
 					}else if(!ap1.getApustuak().isEmpty() && ap1.irabazitaMarkatu()){
-						this.ApustuaIrabazi(ap1);
+						this.apustuaIrabazi(ap1);
 					}
 					db.getTransaction().begin();
 					Sport spo =quo.getQuestion().getEvent().getSport();

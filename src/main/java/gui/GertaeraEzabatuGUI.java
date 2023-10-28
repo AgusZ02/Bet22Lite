@@ -167,7 +167,6 @@ public class GertaeraEzabatuGUI extends JFrame{
 
 					paintDaysWithEvents(jCalendar,datesWithEventsCurrentMonth);
 
-					
 					Date firstDay = UtilDate.trim(calendarAct.getTime());
 
 					try {
@@ -188,13 +187,10 @@ public class GertaeraEzabatuGUI extends JFrame{
 							modelEvents.addElement(ev);
 						jComboBoxEvents.repaint();
 
-						if (events.isEmpty())
-							jButtonEzabatu.setEnabled(false);
-						else
-							jButtonEzabatu.setEnabled(true);
+						jButtonEzabatu.setEnabled(!events.isEmpty());
 
 					} catch (Exception e1) {
-						
+						System.out.println(e1.getMessage());
 					}
 
 				}
