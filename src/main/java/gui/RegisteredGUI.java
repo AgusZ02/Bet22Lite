@@ -183,7 +183,7 @@ public class RegisteredGUI extends JFrame {
 			jButtonApustuaEgin.setText(ResourceBundle.getBundle("Etiquetas").getString("ApustuaEgin")); //$NON-NLS-1$ //$NON-NLS-2$
 			jButtonApustuaEgin.addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent e) {
-					JFrame a = new ApustuaEginGUI(new Vector<Event>(),user, null); 
+					JFrame a = new apustuaEginGUI(new Vector<Event>(),user, null); 
 					a.setVisible(true);
 				}
 			});

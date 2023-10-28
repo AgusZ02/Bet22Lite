@@ -153,7 +153,7 @@ public class SugerenciasGUI extends JFrame{
 		
 		btnApostar.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				JFrame a =new ApustuaEginGUI(new Vector<Event>(),user, (Quote)list_2.getSelectedValue());
+				JFrame a =new apustuaEginGUI(new Vector<Event>(),user, (Quote)list_2.getSelectedValue());
 				a.setVisible(true);
 				thisw.setVisible(false);
 			}

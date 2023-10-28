@@ -41,7 +41,7 @@ import exceptions.ApustuaAlreadyExist;
 import exceptions.EventFinished;
 import java.awt.Font;
 
-public class ApustuaEginGUI extends JFrame{
+public class apustuaEginGUI extends JFrame{
 
 	private BLFacade businessLogic = MainGUI.getBusinessLogic();
 
@@ -91,7 +91,7 @@ public class ApustuaEginGUI extends JFrame{
 	private JButton jButtonFinish;
 	
 	
-	public ApustuaEginGUI(Vector<domain.Event> v, Registered u, Quote q) {
+	public apustuaEginGUI(Vector<domain.Event> v, Registered u, Quote q) {
 		user = u; 
 		textFieldDiruKop.setFont(new Font("Tahoma", Font.PLAIN, 16));
 		textFieldDiruKop.setHorizontalAlignment(SwingConstants.CENTER);
