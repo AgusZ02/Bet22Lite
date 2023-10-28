@@ -9,7 +9,6 @@ import java.util.ResourceBundle;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
-import javax.swing.JPanel;
 import javax.swing.JPasswordField;
 import javax.swing.JTextField;
 import javax.swing.SwingConstants;
@@ -19,16 +18,15 @@ import domain.Registered;
 
 public class LoginGUI extends JFrame{
 	private static final long serialVersionUID = 1L;
-	private JPanel contentPane= null;
 	private JTextField txtUsername;
 	private JTextField txtPassword;
 	private JLabel izenaSartu = new JLabel(); 
 	private JLabel passSartu = new JLabel(); 
-	private BLFacade businessLogic = MainGUI.getBusinessLogic();
+	private transient BLFacade businessLogic = MainGUI.getBusinessLogic();
 	private JFrame thisw;
 	private JLabel lblNewLabel;
-	private JLabel lblNewLabel_1;
-	private JLabel lblNewLabel_2;
+	private JLabel lblNewLabel1;
+	private JLabel lblNewLabel2;
 	private JButton btnNewButton;
 
 	public LoginGUI()
@@ -73,17 +71,17 @@ public class LoginGUI extends JFrame{
 		lblNewLabel.setBounds(10, 56, 666, 51);
 		getContentPane().add(lblNewLabel);
 		
-		lblNewLabel_1 = new JLabel(ResourceBundle.getBundle("Etiquetas").getString("Username"));
-		lblNewLabel_1.setHorizontalAlignment(SwingConstants.RIGHT);
-		lblNewLabel_1.setFont(new Font("Times New Roman", Font.BOLD, 20));
-		lblNewLabel_1.setBounds(24, 143, 209, 30);
-		getContentPane().add(lblNewLabel_1);
+		lblNewLabel1 = new JLabel(ResourceBundle.getBundle("Etiquetas").getString("Username"));
+		lblNewLabel1.setHorizontalAlignment(SwingConstants.RIGHT);
+		lblNewLabel1.setFont(new Font("Times New Roman", Font.BOLD, 20));
+		lblNewLabel1.setBounds(24, 143, 209, 30);
+		getContentPane().add(lblNewLabel1);
 		
-		lblNewLabel_2 = new JLabel(ResourceBundle.getBundle("Etiquetas").getString("Password"));
-		lblNewLabel_2.setFont(new Font("Times New Roman", Font.BOLD, 20));
-		lblNewLabel_2.setHorizontalAlignment(SwingConstants.RIGHT);
-		lblNewLabel_2.setBounds(24, 233, 209, 40);
-		getContentPane().add(lblNewLabel_2);
+		lblNewLabel2 = new JLabel(ResourceBundle.getBundle("Etiquetas").getString("Password"));
+		lblNewLabel2.setFont(new Font("Times New Roman", Font.BOLD, 20));
+		lblNewLabel2.setHorizontalAlignment(SwingConstants.RIGHT);
+		lblNewLabel2.setBounds(24, 233, 209, 40);
+		getContentPane().add(lblNewLabel2);
 		
 		btnNewButton = new JButton(ResourceBundle.getBundle("Etiquetas").getString("Login"));
 		btnNewButton.addActionListener(new ActionListener() {
@@ -104,7 +102,7 @@ public class LoginGUI extends JFrame{
 					Registered u = businessLogic.isLogin(izena, password);
 					if(u != null) {
 						if(u.isAdmin()) {
-							JFrame adm= new AdminGUI(u);
+							JFrame adm= new AdminGUI();
 							adm.setVisible(true);
 							thisw.setVisible(false);
 						}else if(u instanceof Registered) {

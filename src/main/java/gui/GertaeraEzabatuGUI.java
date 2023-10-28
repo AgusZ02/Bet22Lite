@@ -9,6 +9,7 @@ import java.awt.event.ActionListener;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 import java.text.DateFormat;
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
@@ -27,7 +28,6 @@ import com.toedter.calendar.JCalendar;
 
 import businessLogic.BLFacade;
 import configuration.UtilDate;
-import domain.Apustua;
 import domain.Event;
 import javax.swing.SwingConstants;
 
@@ -35,10 +35,10 @@ public class GertaeraEzabatuGUI extends JFrame{
 
 	private static final long serialVersionUID = 1L;
 
-	private BLFacade businessLogic = MainGUI.getBusinessLogic();
+	private transient BLFacade businessLogic = MainGUI.getBusinessLogic();
 	
-	private JComboBox<Event> jComboBoxEvents = new JComboBox<Event>();
-	DefaultComboBoxModel<Event> modelEvents = new DefaultComboBoxModel<Event>();
+	private JComboBox<Event> jComboBoxEvents = new JComboBox<>();
+	DefaultComboBoxModel<Event> modelEvents = new DefaultComboBoxModel<>();
 
 	private JLabel jLabelListOfEvents = new JLabel(ResourceBundle.getBundle("Etiquetas").getString("ListEvents"));
 	private JLabel jLabelEventDate = new JLabel(ResourceBundle.getBundle("Etiquetas").getString("EventDate"));
@@ -50,13 +50,13 @@ public class GertaeraEzabatuGUI extends JFrame{
 	private JButton jButtonClose = new JButton(ResourceBundle.getBundle("Etiquetas").getString("Close"));
 	private JLabel jLabelMsg = new JLabel();
 	
-	private List<Date> datesWithEventsCurrentMonth = new Vector<Date>();
+	private List<Date> datesWithEventsCurrentMonth = new ArrayList<>();
 
 	private JButton jButtonEzabatu;
 
 	private JLabel jLabelErrorea;
 
-	public GertaeraEzabatuGUI(Vector<domain.Event> v) {
+	public GertaeraEzabatuGUI(List<domain.Event> v) {
 		try {
 			jbInit(v);
 		} catch (Exception e) {
@@ -64,7 +64,7 @@ public class GertaeraEzabatuGUI extends JFrame{
 		}
 	}
 
-	private void jbInit(Vector<domain.Event> v) throws Exception {
+	private void jbInit(List<domain.Event> v) throws Exception {
 
 		jLabelErrorea = new JLabel(); 
 		jLabelErrorea.setHorizontalAlignment(SwingConstants.CENTER);
@@ -146,8 +146,7 @@ public class GertaeraEzabatuGUI extends JFrame{
 		this.jCalendar.addPropertyChangeListener(new PropertyChangeListener() {
 			public void propertyChange(PropertyChangeEvent propertychangeevent) {
 				jLabelErrorea.setVisible(false);
-//				this.jCalendar.addPropertyChangeListener(new PropertyChangeListener() {
-//					public void propertyChange(PropertyChangeEvent propertychangeevent) {
+
 				if (propertychangeevent.getPropertyName().equals("locale")) {
 					jCalendar.setLocale((Locale) propertychangeevent.getNewValue());
 				} else if (propertychangeevent.getPropertyName().equals("calendar")) {
@@ -178,7 +177,7 @@ public class GertaeraEzabatuGUI extends JFrame{
 
 					paintDaysWithEvents(jCalendar,datesWithEventsCurrentMonth);
 
-					//	Date firstDay = UtilDate.trim(new Date(jCalendar.getCalendar().getTime().getTime()));
+
 					Date firstDay = UtilDate.trim(calendarAct.getTime());
 
 					try {
@@ -199,13 +198,10 @@ public class GertaeraEzabatuGUI extends JFrame{
 							modelEvents.addElement(ev);
 						jComboBoxEvents.repaint();
 
-						if (events.size() == 0)
-							jButtonEzabatu.setEnabled(false);
-						else
-							jButtonEzabatu.setEnabled(true);
+						jButtonEzabatu.setEnabled(!events.isEmpty());
 
 					} catch (Exception e1) {
-						
+						System.out.println(e1.getMessage());
 					}
 
 				}
@@ -247,8 +243,8 @@ public static void paintDaysWithEvents(JCalendar jCalendar,List<Date> datesWithE
 			// the empty days before day 1 of month, and all the days previous to each day.
 			// That number of components is calculated with "offset" and is different in
 			// English and Spanish
-//			    		  Component o=(Component) jCalendar.getDayChooser().getDayPanel().getComponent(i+offset);; 
-			Component o = (Component) jCalendar.getDayChooser().getDayPanel()
+
+			Component o = jCalendar.getDayChooser().getDayPanel()
 					.getComponent(calendar.get(Calendar.DAY_OF_MONTH) + offset);
 			o.setBackground(Color.CYAN);
 	 	}

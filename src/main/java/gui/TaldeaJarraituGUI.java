@@ -23,7 +23,7 @@ import javax.swing.event.ListSelectionListener;
 import javax.swing.event.ListSelectionEvent;
 
 public class TaldeaJarraituGUI extends JFrame{
-	private BLFacade businessLogic = MainGUI.getBusinessLogic();
+	private transient BLFacade businessLogic = MainGUI.getBusinessLogic();
 
 	private static final long serialVersionUID = 1L;
 	private Registered user;
@@ -32,8 +32,8 @@ public class TaldeaJarraituGUI extends JFrame{
 
 	private JScrollPane scrollBar;
 
-	private JList list;
-	private DefaultListModel<Team> teams = new DefaultListModel<Team>();
+	private JList<Team> list;
+	private DefaultListModel<Team> teams = new DefaultListModel<>();
 	private JButton btnClose;
 	private JButton btnSeguir;
 	
@@ -60,7 +60,7 @@ public class TaldeaJarraituGUI extends JFrame{
 		
 		btnSeguir.setEnabled(false);
 		
-		list = new JList();
+		list = new JList<>();
 		list.addListSelectionListener(new ListSelectionListener() {
 			public void valueChanged(ListSelectionEvent e) {
 				btnSeguir.setEnabled(true);
@@ -83,7 +83,7 @@ public class TaldeaJarraituGUI extends JFrame{
 		btnClose.setFont(new Font("Tahoma", Font.PLAIN, 15));
 		btnClose.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				jButtonClose_actionPerformed(e);
+				jButtonCloseActionPerformed(e);
 				JFrame a= new DestacadosGUI(user);
 				a.setVisible(true);
 			}
@@ -96,7 +96,7 @@ public class TaldeaJarraituGUI extends JFrame{
 		
 		btnSeguir.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				businessLogic.jarraituTaldea(user, (Team)list.getSelectedValue());
+				businessLogic.jarraituTaldea(user, list.getSelectedValue());
 				JFrame a = new DestacadosGUI(user);
 				a.setVisible(true);
 				thisw.setVisible(false);
@@ -109,7 +109,7 @@ public class TaldeaJarraituGUI extends JFrame{
 		
 	}
 	
-	private void jButtonClose_actionPerformed(ActionEvent e) {
+	private void jButtonCloseActionPerformed(ActionEvent e) {
 		this.setVisible(false);
 	}
 }

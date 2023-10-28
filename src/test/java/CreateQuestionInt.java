@@ -1,17 +1,14 @@
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertTrue;
 import static org.junit.Assert.fail;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
-
 import org.junit.BeforeClass;
 import org.junit.Test;
-
 import businessLogic.BLFacadeImplementation;
-import configuration.ConfigXML;
-import test.dataAccess.*;
 import dataAccess.DataAccess;
 import domain.Event;
 import domain.Question;
@@ -53,7 +50,6 @@ public class CreateQuestionInt {
 			try {
 				oneDate = sdf.parse("05/10/2022");
 			} catch (ParseException e) {
-				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}	
 			
@@ -68,13 +64,11 @@ public class CreateQuestionInt {
 			//if the program continues fail
 		    fail();
 		   } catch (QuestionAlreadyExist e) {
-			// TODO Auto-generated catch block
 			// if the program goes to this point OK  
 			assertTrue(true);
 			} catch (EventFinished e) {
 				// if the program goes to this point fail
 			    fail();
-				// TODO Auto-generated catch block
 				e.printStackTrace();
 			} finally {
 				  //Remove the created objects in the database (cascade removing)   
@@ -98,7 +92,6 @@ public class CreateQuestionInt {
 			try {
 				oneDate = sdf.parse("05/10/2022");
 			} catch (ParseException e) {
-				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}	
 			
@@ -110,13 +103,12 @@ public class CreateQuestionInt {
 			
 			
 			//verify the results
-			assertTrue(q!=null);
+			assertNotNull(q);
 			assertEquals(q.getQuestion(),queryText);
 			assertEquals(q.getBetMinimum(),betMinimum,0);
 			
 			
 		   } catch (QuestionAlreadyExist e) {
-			// TODO Auto-generated catch block
 			// if the program goes to this point fail  
 			fail();
 			} catch (EventFinished e) {

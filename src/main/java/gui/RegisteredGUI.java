@@ -50,7 +50,6 @@ public class RegisteredGUI extends JFrame {
 	private JButton jButtonMugimenduakBistaratu;
 	private JButton jButtonDesLogin;
 	private JFrame thisw;
-	private JButton btnNewButton;
 	private JButton btnRank;
 	private JButton btnDestacados;
 	
@@ -64,18 +63,11 @@ public class RegisteredGUI extends JFrame {
 		addWindowListener(new WindowAdapter() {
 			@Override
 			public void windowClosing(WindowEvent e) {
-				try {
-					//if (ConfigXML.getInstance().isBusinessLogicLocal()) facade.close();
-				} catch (Exception e1) {
-					// TODO Auto-generated catch block
-					System.out.println("Error: "+e1.toString()+" , probably problems with Business Logic or Database");
-				}
 				System.exit(1);
 			}
 		});
 
 		initialize();
-		//this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 	}
 	
 	
@@ -86,7 +78,6 @@ public class RegisteredGUI extends JFrame {
 	 * @return void
 	 */
 	private void initialize() {
-		// this.setSize(271, 295);
 		this.setSize(650, 600);
 		this.setContentPane(getJContentPane());
 		this.setTitle(ResourceBundle.getBundle("Etiquetas").getString("RegisteredTitle"));
@@ -183,7 +174,7 @@ public class RegisteredGUI extends JFrame {
 			jButtonApustuaEgin.setText(ResourceBundle.getBundle("Etiquetas").getString("ApustuaEgin")); //$NON-NLS-1$ //$NON-NLS-2$
 			jButtonApustuaEgin.addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent e) {
-					JFrame a = new ApustuaEginGUI(new Vector<Event>(),user, null); 
+					JFrame a = new apustuaEginGUI(user, null); 
 					a.setVisible(true);
 				}
 			});
@@ -275,5 +266,5 @@ public class RegisteredGUI extends JFrame {
 		}
 		return btnDestacados;
 	}
-} // @jve:decl-index=0:visual-constraint="0,0"
+}
 
