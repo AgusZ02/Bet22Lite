@@ -79,24 +79,6 @@ public class GertaerakSortuDAB {
 			//sut.createQuestion:  insert the event in DB. There are not more events on that date
 				public void test2() {
 						
-<<<<<<< Updated upstream
-							//define paramaters
-							String deporte="Futbol";
-							String des="Atletico-Athletic";
-							boolean resp;
-							String fecha= "17/11/2023";
-													
-							SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
-							Date eventDate=null;
-							 
-							try {
-								eventDate= sdf.parse(fecha);
-							} catch (ParseException e) {
-								e.printStackTrace();
-							}
-							
-						
-=======
 					String description = "Atletico-Athletic";
 					String sport = "Futbol";
 					boolean resp;
@@ -118,7 +100,6 @@ public class GertaerakSortuDAB {
 						// TODO Auto-generated catch block
 						e.printStackTrace();
 					}
->>>>>>> Stashed changes
 					try {	
 						
 						//invoke System Under Test (sut)
@@ -179,11 +160,7 @@ public class GertaerakSortuDAB {
 					//invoke sut two times 
 					sut.open(true);
 					
-<<<<<<< Updated upstream
-					Event eventoDB=testDA.crearEvento(des, eventDate);//tieme que dar f
-=======
 					Event eventoDB=testDA.crearEvento(des, eventDate); 
->>>>>>> Stashed changes
 					resp2=sut.gertaerakSortu(des, eventDate, deporte);//tiene que dar f
 					sut.close();
 					
