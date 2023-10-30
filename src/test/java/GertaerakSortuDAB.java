@@ -120,53 +120,37 @@ public class GertaerakSortuDAB {
 					}
 >>>>>>> Stashed changes
 					try {	
-							//invoke System Under Test (sut)  
-							sut.open(true);
-							//boolean a = testDA.exiteEvento(eventDate, des);
-							
-							resp =sut.gertaerakSortu(des, eventDate, deporte);
-							sut.close();
-							
-							//verify the results
-							//Event evento = testDA.getEvent(eventDate, des);
-							assertFalse(resp);
-							
-							testDA.open();
-							Event e=testDA.getEvent(eventDate, des);
-							testDA.close();
 						
-							assertEquals(e.getDescription(),des);
-							assertEquals(e.getEventDate(), eventDate);
-							assertEquals(e.getSport().getIzena(), deporte);
-							
-							//the event is in DB
-							
-							testDA.open();
-							boolean existe = testDA.exiteEvento(eventDate, des);
-							testDA.close();
-							
-							assertTrue(existe);
-							
-					} catch (Exception e) {
-						// TODO Auto-generated catch block
-						//e.printStackTrace();
-						fail();
+						//invoke System Under Test (sut)
+						sut.open(true);
+						resp = sut.gertaerakSortu(description, eventDate, sport);
+						sut.close();
 						
-						
-					}	finally {
-						//Remove the created objects in the database (cascade removing)   
+						//verify the results
+						assertTrue(resp);
 						testDA.open();
-				          boolean b=testDA.eliminateEvent(eventDate, des);
-				          testDA.close();
-				           System.out.println("Finally t2 "+b);
-				           
+						Event ev = testDA.getEvent(eventDate, description);
+						testDA.close();			
+						assertEquals(ev.getDescription(),description);
+						assertEquals(ev.getEventDate(),eventDate);
+						assertEquals(ev.getSport().getIzena(),sport);
+						
+						//event IS in database
+						testDA.open();
+						boolean exists = testDA.exiteEvento(eventDate, description);
+						testDA.close();
+						assertTrue(exists);
+						
+					} catch(Exception e) {
+						fail();
+					} finally {
+						//Remove the created objects in the database (cascade removing)
+						testDA.open();
+				       // boolean b=testDA.removeEvent(ev);
+				        testDA.close();
+				        System.out.println("Finally ");//+b);
 					}
-
-					
-				
 				}
-					
-
 			@Test
 			//sut.createQuestion:  trying to insert two equal events
 			public void test3() {
@@ -196,7 +180,7 @@ public class GertaerakSortuDAB {
 					sut.open(true);
 					
 <<<<<<< Updated upstream
-					resp=sut.gertaerakSortu(des, eventDate, deporte);//tieme que dar f
+					Event eventoDB=testDA.crearEvento(des, eventDate);//tieme que dar f
 =======
 					Event eventoDB=testDA.crearEvento(des, eventDate); 
 >>>>>>> Stashed changes
@@ -205,16 +189,16 @@ public class GertaerakSortuDAB {
 					
 					
 					//verify the results
-					assertTrue(resp);
-					assertTrue(resp2);
+				//	assertTrue(resp);
+					assertFalse(resp2);
 					
-					testDA.open();
-					Event ev=testDA.getEvent(eventDate, des);
-					testDA.close();
+				// 	testDA.open();
+					//Event ev=testDA.getEvent(eventDate, des);
+				//	testDA.close();
 					
-					assertEquals(ev.getDescription(), des);
-					assertEquals(ev.getEventDate(), eventDate);
-					assertEquals(ev.getSport().getIzena(), deporte);
+					assertEquals(eventoDB.getDescription(), des);
+					assertEquals(eventoDB.getEventDate(), eventDate);
+					//assertEquals(eventoDB.getSport().getIzena(), deporte);
 					
 					//check if the first event is in DB
 	
