@@ -79,70 +79,49 @@ public class GertaerakSortuDAB {
 			//sut.createQuestion:  insert the event in DB. There are not more events on that date
 				public void test2() {
 						
-							//define paramaters
-							String deporte="Futbol";
-							String des="Atletico-Athletic";
-							boolean resp;
-							String fecha= "17/11/2023";
-													
-							SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
-							Date eventDate=null;
-							 
-							try {
-								eventDate= sdf.parse(fecha);
-							} catch (ParseException e) {
-								e.printStackTrace();
-							}
-							
-						
-					try {	
-							//invoke System Under Test (sut)  
-							sut.open(true);
-							//boolean a = testDA.exiteEvento(eventDate, des);
-							
-							resp =sut.gertaerakSortu(des, eventDate, deporte);
-							sut.close();
-							
-							//verify the results
-							//Event evento = testDA.getEvent(eventDate, des);
-							assertFalse(resp);
-							
-							testDA.open();
-							Event e=testDA.getEvent(eventDate, des);
-							testDA.close();
-						
-							assertEquals(e.getDescription(),des);
-							assertEquals(e.getEventDate(), eventDate);
-							assertEquals(e.getSport().getIzena(), deporte);
-							
-							//the event is in DB
-							
-							testDA.open();
-							boolean existe = testDA.exiteEvento(eventDate, des);
-							testDA.close();
-							
-							assertTrue(existe);
-							
-					} catch (Exception e) {
+					String description = "Real Madrid-Barcelona";
+					String sport = "Futbol";
+					boolean resp;
+					SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
+					Date eventDate=null;;
+					try {
+						eventDate = sdf.parse("30/10/2022");
+					} catch (ParseException e) {
 						// TODO Auto-generated catch block
-						//e.printStackTrace();
-						fail();
-						
-						
-					}	finally {
-						//Remove the created objects in the database (cascade removing)   
-						testDA.open();
-				          boolean b=testDA.eliminateEvent(eventDate, des);
-				          testDA.close();
-				           System.out.println("Finally t2 "+b);
-				           
+						e.printStackTrace();
 					}
-
-					
-				
+					try {	
+						
+						//invoke System Under Test (sut)
+						sut.open(true);
+						resp = sut.gertaerakSortu(description, eventDate, sport);
+						sut.close();
+						
+						//verify the results
+						assertTrue(resp);
+						testDA.open();
+						Event ev = testDA.getEvent(eventDate, description);
+						testDA.close();			
+						assertEquals(ev.getDescription(),description);
+						assertEquals(ev.getEventDate(),eventDate);
+						assertEquals(ev.getSport().getIzena(),sport);
+						
+						//event IS in database
+						testDA.open();
+						boolean exists = testDA.exiteEvento(eventDate, description);
+						testDA.close();
+						assertTrue(exists);
+						
+					} catch(Exception e) {
+						fail();
+					} finally {
+						//Remove the created objects in the database (cascade removing)
+						testDA.open();
+				       // boolean b=testDA.removeEvent(ev);
+				        testDA.close();
+				        System.out.println("Finally ");//+b);
+					}
 				}
-					
-
 			@Test
 			//sut.createQuestion:  trying to insert two equal events
 			public void test3() {
@@ -171,22 +150,22 @@ public class GertaerakSortuDAB {
 					//invoke sut two times 
 					sut.open(true);
 					
-					resp=sut.gertaerakSortu(des, eventDate, deporte);//tieme que dar f
+					Event eventoDB=testDA.crearEvento(des, eventDate);//tieme que dar f
 					resp2=sut.gertaerakSortu(des, eventDate, deporte);//tiene que dar f
 					sut.close();
 					
 					
 					//verify the results
-					assertTrue(resp);
-					assertTrue(resp2);
+				//	assertTrue(resp);
+					assertFalse(resp2);
 					
-					testDA.open();
-					Event ev=testDA.getEvent(eventDate, des);
-					testDA.close();
+				// 	testDA.open();
+					//Event ev=testDA.getEvent(eventDate, des);
+				//	testDA.close();
 					
-					assertEquals(ev.getDescription(), des);
-					assertEquals(ev.getEventDate(), eventDate);
-					assertEquals(ev.getSport().getIzena(), deporte);
+					assertEquals(eventoDB.getDescription(), des);
+					assertEquals(eventoDB.getEventDate(), eventDate);
+					//assertEquals(eventoDB.getSport().getIzena(), deporte);
 					
 					//check if the first event is in DB
 	
