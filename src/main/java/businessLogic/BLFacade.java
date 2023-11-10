@@ -10,6 +10,7 @@ import javax.jws.WebService;
 import domain.ApustuAnitza;
 import domain.Apustua;
 import domain.Event;
+import domain.ExtendedIterator;
 import domain.Question;
 import domain.Quote;
 import domain.Registered;
@@ -123,6 +124,7 @@ public interface BLFacade  {
 	
 	@WebMethod public List<Event> getEventsTeam(Team t);
 	
+	@WebMethod public ExtendedIterator<Event> getEventsIterator(Date date);
 		
 	@WebMethod public Team findTeam(Registered u);
 	

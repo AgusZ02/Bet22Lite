@@ -14,6 +14,8 @@ import dataAccess.DataAccess;
 import domain.ApustuAnitza;
 import domain.Apustua;
 import domain.Event;
+import domain.EventIterator;
+import domain.ExtendedIterator;
 import domain.Question;
 import domain.Quote;
 import domain.Registered;
@@ -103,8 +105,12 @@ public class BLFacadeImplementation  implements BLFacade {
 		dbManager.close();
 		return events;
 	}
+	@WebMethod
+	public ExtendedIterator<Event>	getEventsIterator(Date	date){
+		
+		return new EventIterator(getEvents(date));
+	}
 
-    
 	/**
 	 * This method invokes the data access to retrieve the dates a month for which there are events
 	 * 
