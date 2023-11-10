@@ -9,8 +9,6 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 
 import org.junit.Test;
-
-import dataAccess.DataAccess;
 import domain.Event;
 import test.businessLogic.TestFacadeImplementation;
 import test.dataAccess.TestDataAccess;

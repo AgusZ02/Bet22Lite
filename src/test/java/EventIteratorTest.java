@@ -5,9 +5,7 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
-
 import org.junit.Test;
-
 import businessLogic.BLFacade;
 import businessLogic.Factory;
 import domain.Event;
