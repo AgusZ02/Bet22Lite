@@ -30,7 +30,7 @@ public class EventIterator implements ExtendedIterator<Event>{
 
     @Override
     public boolean hasPrevious() {
-        return this.index > 0;
+        return this.index > -1;
     }
 
     @Override
