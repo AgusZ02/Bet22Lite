@@ -18,7 +18,7 @@ import domain.Registered;
 import test.businessLogic.TestFacadeImplementation;
 
 
-public class EmaitzakIpiniDAB2 {
+public class EmaitzakIpiniTest2 {
     
     //sut:system under test
 	static DataAccessEmaitzakIpini sut=new DataAccessEmaitzakIpini(true);
