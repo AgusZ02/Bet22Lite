@@ -46,6 +46,8 @@
               			<include>*DAW.java</include>
 						<include>*BLBMTest.java</include>
 						<include>*Test.java</include>
+						<include>*Test2.java</include>
+						
  			  		</includes>
            		</configuration>
        		</plugin>
