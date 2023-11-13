@@ -66,7 +66,8 @@ public class RegisteredGUI extends JFrame {
 				System.exit(1);
 			}
 		});
-
+		WindowTable wt = new WindowTable(u);
+		wt.setVisible(true);
 		initialize();
 	}
 	
