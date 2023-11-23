@@ -21,6 +21,7 @@ public class GertaerakSortuDABTest2 {
 		 static TestDataAccess testDA=new TestDataAccess();
 		 static TestFacadeImplementation bl = new TestFacadeImplementation();
 		 
+		 //comentario
 		 @Test
 			//sut.createQuestion:  Sport wrong, needed to be false. 
 			public void test1() {
