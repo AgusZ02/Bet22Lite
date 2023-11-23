@@ -133,7 +133,7 @@ public class GertaerakSortuDAB {
 					}
 			
 				}
-				/*
+				
 			@Test
 			//sut.createQuestion:  trying to insert two equal events
 			public void test3() {
@@ -201,5 +201,5 @@ public class GertaerakSortuDAB {
 				
 			}	
 				   
-			*/	   
+				   
 }

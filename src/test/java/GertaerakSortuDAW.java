@@ -131,7 +131,7 @@ public class GertaerakSortuDAW {
 					
 				
 				}
-		/*			
+				
 	
 		 @Test
 			//sut.createQuestion:  need to insert the event in Db, but in that date there is another event
@@ -269,6 +269,6 @@ public class GertaerakSortuDAW {
 				}
 				
 			}
-			*/	
+				
 	
 }
