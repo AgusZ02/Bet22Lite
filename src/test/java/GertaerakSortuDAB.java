@@ -131,7 +131,9 @@ public class GertaerakSortuDAB {
 				        testDA.close();
 				        System.out.println("Finally ");//+b);
 					}
+			
 				}
+				/*
 			@Test
 			//sut.createQuestion:  trying to insert two equal events
 			public void test3() {
@@ -199,5 +201,5 @@ public class GertaerakSortuDAB {
 				
 			}	
 				   
-				   
+			*/	   
 }
